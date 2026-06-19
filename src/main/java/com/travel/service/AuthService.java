@@ -5,6 +5,7 @@ import com.travel.dto.LoginResponse;
 import com.travel.entity.Role;
 import com.travel.entity.User;
 import com.travel.repository.UserRepository;
+import com.travel.dto.CreateUserRequest
 import com.travel.security.JwtService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,24 +32,11 @@ public class AuthService {
         this.jwtService = jwtService;
     }
 
-     public User createUser(String username, String rawPassword, String fullName) {
-        String hashedPassword = passwordEncoder.encode(rawPassword);
-
-        // Lấy role ADMIN mặc định
-        Role adminRole = roleRepository.findByName("ADMIN")
-                .orElseThrow(() -> new RuntimeException("Role ADMIN not found"));
-
-        User user = new User();
-        user.setUsername(username);
-        user.setPasswordHash(hashedPassword);
-        user.setFullName(fullName);
-        user.setStatus("ACTIVE");
-        user.setRoles(List.of(adminRole));
-
-        return userRepository.save(user);
-    }
 
     public LoginResponse login(LoginRequest request) {
+        System.out.println(request.getUsername());
+        System.out.println(request.getPassword());
+        passwordEncoder.encode("Admin@456");
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("Invalid username or password"));
 
@@ -80,4 +68,43 @@ public class AuthService {
                 roles
         );
     }
-}
+
+    public UserProfileResponse createUser(CreateUserRequest request) {
+
+        Role role = roleRepository.findById(
+                request.getRoleId() != null ? request.getRoleId() : 1L
+        ).orElseThrow(() -> new RuntimeException("Role not found"));
+
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        user.setFullName(request.getFullName());
+        user.setEmail(request.getEmail());
+        user.setPhone(request.getPhone());
+        user.setAvatarUrl(request.getAvatarUrl());
+
+        // mặc định ACTIVE nếu FE không gửi
+        user.setStatus(
+                request.getStatus() != null
+                        ? request.getStatus()
+                        : "ACTIVE"
+        );
+
+        user.setRoles(Set.of(role));
+
+        User savedUser = userRepository.save(user);
+
+        return new UserProfileResponse(
+                savedUser.getId(),
+                savedUser.getUsername(),
+                savedUser.getFullName(),
+                savedUser.getEmail(),
+                savedUser.getPhone(),
+                savedUser.getAvatarUrl(),
+                savedUser.getStatus(),
+                savedUser.getRoles()
+                        .stream()
+                        .map(Role::getName)
+                        .toList()
+        );
+        }
