@@ -15,17 +15,37 @@ import java.util.List;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;   
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
     public AuthService(
             UserRepository userRepository,
+            RoleRepository roleRepository,       
             PasswordEncoder passwordEncoder,
             JwtService jwtService
     ) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;     
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+    }
+
+     public User createUser(String username, String rawPassword, String fullName) {
+        String hashedPassword = passwordEncoder.encode(rawPassword);
+
+        // Lấy role ADMIN mặc định
+        Role adminRole = roleRepository.findByName("ADMIN")
+                .orElseThrow(() -> new RuntimeException("Role ADMIN not found"));
+
+        User user = new User();
+        user.setUsername(username);
+        user.setPasswordHash(hashedPassword);
+        user.setFullName(fullName);
+        user.setStatus("ACTIVE");
+        user.setRoles(List.of(adminRole));
+
+        return userRepository.save(user);
     }
 
     public LoginResponse login(LoginRequest request) {
