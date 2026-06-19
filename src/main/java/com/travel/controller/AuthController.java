@@ -20,4 +20,13 @@ public class AuthController {
     public LoginResponse login(@RequestBody LoginRequest request) {
         return authService.login(request);
     }
+
+    @PostMapping("/create")
+    public User createUser(@RequestBody CreateUserRequest request) {
+        return userService.createUser(
+                request.getUsername(),
+                request.getPassword(),
+                request.getFullName()
+        );
+    }
 }
