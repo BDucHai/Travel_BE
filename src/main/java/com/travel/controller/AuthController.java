@@ -3,6 +3,7 @@ package com.travel.controller;
 import com.travel.dto.LoginRequest;
 import com.travel.dto.LoginResponse;
 import com.travel.dto.CreateUserRequest;
+import com.travel.dto.UserProfileResponse;
 import com.travel.service.AuthService;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,6 @@ public class AuthController {
 
     @PostMapping("/create")
     public UserProfileResponse createUser(@RequestBody CreateUserRequest request) {
-        return userService.createUser(request);
+        return authService.createUser(request);
     }
 }

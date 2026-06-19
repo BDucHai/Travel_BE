@@ -1,4 +1,4 @@
-package com.travel.dto.request;
+package com.travel.dto;
 
 public class CreateUserRequest {
 

@@ -2,15 +2,19 @@ package com.travel.service;
 
 import com.travel.dto.LoginRequest;
 import com.travel.dto.LoginResponse;
+import com.travel.dto.CreateUserRequest;
+import com.travel.dto.UserProfileResponse;
 import com.travel.entity.Role;
 import com.travel.entity.User;
+import com.travel.repository.RoleRepository;
 import com.travel.repository.UserRepository;
-import com.travel.dto.CreateUserRequest;
 import com.travel.security.JwtService;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class AuthService {
