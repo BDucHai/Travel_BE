@@ -34,6 +34,11 @@ public interface TourRepository extends JpaRepository<Tour, Long> {
     
     Page<Tour> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
+    Page<Tour> findByTitleEnContainingIgnoreCaseOrderByCreatedAtDesc(
+        String titleEn,
+        Pageable pageable
+        );
+
     @Query("""
             SELECT DISTINCT t
             FROM Tour t

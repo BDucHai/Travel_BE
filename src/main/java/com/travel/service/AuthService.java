@@ -38,9 +38,6 @@ public class AuthService {
 
 
     public LoginResponse login(LoginRequest request) {
-        System.out.println(request.getUsername());
-        System.out.println(request.getPassword());
-        passwordEncoder.encode("Admin@456");
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("Invalid username or password"));
 

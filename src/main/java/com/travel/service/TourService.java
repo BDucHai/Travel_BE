@@ -128,15 +128,26 @@ public class TourService {
 
     // Admin API
     public PaginationResponse<AdminTourResponse> getAllToursForAdmin(
-            Integer page,
-            Integer limit
-    ) {
+        Integer page,
+        Integer limit,
+        String titleEn
+        ) {
         int pageNumber = page == null || page < 0 ? 0 : page;
         int pageSize = limit == null || limit <= 0 ? 10 : limit;
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
-        Page<Tour> tourPage = tourRepository.findAllByOrderByCreatedAtDesc(pageable);
+        Page<Tour> tourPage;
+
+        if (titleEn != null && !titleEn.trim().isEmpty()) {
+                tourPage = tourRepository
+                        .findByTitleEnContainingIgnoreCaseOrderByCreatedAtDesc(
+                                titleEn.trim(),
+                                pageable
+                        );
+        } else {
+                tourPage = tourRepository.findAllByOrderByCreatedAtDesc(pageable);
+        }
 
         List<AdminTourResponse> data = tourPage.getContent()
                 .stream()
@@ -152,7 +163,7 @@ public class TourService {
                 tourPage.isFirst(),
                 tourPage.isLast()
         );
-    }
+        }
 
     // Admin API
     public AdminTourResponse getTourById(Long id) {

@@ -49,9 +49,10 @@ public class AdminTourController {
     @GetMapping
     public PaginationResponse<AdminTourResponse> getAllTours(
             @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer limit
+            @RequestParam(defaultValue = "10") Integer limit,
+            @RequestParam(defaultValue = "") String titleEn
     ) {
-        return tourService.getAllToursForAdmin(page, limit);
+        return tourService.getAllToursForAdmin(page, limit, titleEn);
     }
 
     @GetMapping("/{id}")
