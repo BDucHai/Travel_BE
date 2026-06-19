@@ -38,9 +38,10 @@ public class AuthService {
 
 
     public LoginResponse login(LoginRequest request) {
+                System.out.println(request);
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("Invalid username or password"));
-
+        System.out.println(user.getStatus());
         if (!"ACTIVE".equalsIgnoreCase(user.getStatus())) {
             throw new RuntimeException("User account is not active");
         }
