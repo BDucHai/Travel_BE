@@ -2,7 +2,7 @@ package com.travel.controller;
 
 import com.travel.dto.LoginRequest;
 import com.travel.dto.LoginResponse;
-import com.travel.dto.CreateUserRequest
+import com.travel.dto.CreateUserRequest;
 import com.travel.service.AuthService;
 import org.springframework.web.bind.annotation.*;
 
