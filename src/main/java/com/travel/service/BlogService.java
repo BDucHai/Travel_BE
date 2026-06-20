@@ -174,71 +174,91 @@ public class BlogService {
 
     // Admin API: update blog
         public BlogResponse updateBlog(Long id, BlogRequest request, String lang) {
-        Blog blog = blogRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Blog not found"));
+                Blog blog = blogRepository.findById(id)
+                        .orElseThrow(() -> new RuntimeException("Blog not found"));
 
-        blog.setAuthorName(request.getAuthorName());
-
-        blog.setTitleEn(request.getTitleEn());
-        blog.setTitleFr(request.getTitleFr());
-
-        blog.setSlugEn(request.getSlugEn());
-        blog.setSlugFr(request.getSlugFr());
-
-        blog.setExcerptEn(request.getExcerptEn());
-        blog.setExcerptFr(request.getExcerptFr());
-
-        blog.setContentEn(request.getContentEn());
-        blog.setContentFr(request.getContentFr());
-
-        blog.setThumbnailUrl(request.getThumbnailUrl());
-        blog.setHeroImageUrl(request.getHeroImageUrl());
-
-        blog.setIsFeatured(request.getIsFeatured() == null ? false : request.getIsFeatured());
-        blog.setIsMostRead(request.getIsMostRead() == null ? false : request.getIsMostRead());
-
-        if (request.getStatus() != null && !request.getStatus().isBlank()) {
-                String oldStatus = blog.getStatus();
-                String newStatus = request.getStatus().toUpperCase();
-
-                blog.setStatus(newStatus);
-
-                // nếu từ trạng thái khác chuyển sang PUBLISHED mà chưa có publishedAt
-                if (!"PUBLISHED".equalsIgnoreCase(oldStatus)
-                        && "PUBLISHED".equalsIgnoreCase(newStatus)
-                        && blog.getPublishedAt() == null) {
-                blog.setPublishedAt(LocalDateTime.now());
-                }
-        }
-
-        if (request.getPublishedAt() != null) {
-                blog.setPublishedAt(request.getPublishedAt());
-        }
-
-        // =========================
-        // XỬ LÝ RELATED TOURS
-        // null  -> giữ nguyên
-        // []    -> xóa hết
-        // [ids] -> cập nhật lại
-        // =========================
-        if (request.getRelatedTourIds() != null) {
-                if (request.getRelatedTourIds().isEmpty()) {
-                blog.setRelatedTours(new HashSet<>());
-                } else {
-                List<Tour> tours = tourRepository.findAllById(request.getRelatedTourIds());
-
-                if (tours.size() != request.getRelatedTourIds().size()) {
-                        throw new RuntimeException("Một hoặc nhiều relatedTourIds không tồn tại");
+                if (request.getAuthorName() != null) {
+                        blog.setAuthorName(request.getAuthorName());
                 }
 
-                blog.setRelatedTours(new HashSet<>(tours));
+                if (request.getTitleEn() != null) {
+                        blog.setTitleEn(request.getTitleEn());
                 }
-        }
+                if (request.getTitleFr() != null) {
+                        blog.setTitleFr(request.getTitleFr());
+                }
 
-        Blog updated = blogRepository.save(blog);
+                if (request.getSlugEn() != null) {
+                        blog.setSlugEn(request.getSlugEn());
+                }
+                if (request.getSlugFr() != null) {
+                        blog.setSlugFr(request.getSlugFr());
+                }
 
-        return mapToResponse(updated, lang, true);
-        }
+                if (request.getExcerptEn() != null) {
+                        blog.setExcerptEn(request.getExcerptEn());
+                }
+                if (request.getExcerptFr() != null) {
+                        blog.setExcerptFr(request.getExcerptFr());
+                }
+
+                if (request.getContentEn() != null) {
+                        blog.setContentEn(request.getContentEn());
+                }
+                if (request.getContentFr() != null) {
+                        blog.setContentFr(request.getContentFr());
+                }
+
+                if (request.getThumbnailUrl() != null) {
+                        blog.setThumbnailUrl(request.getThumbnailUrl());
+                }
+                if (request.getHeroImageUrl() != null) {
+                        blog.setHeroImageUrl(request.getHeroImageUrl());
+                }
+
+                if (request.getIsFeatured() != null) {
+                        blog.setIsFeatured(request.getIsFeatured());
+                }
+
+                if (request.getIsMostRead() != null) {
+                        blog.setIsMostRead(request.getIsMostRead());
+                }
+
+                if (request.getStatus() != null && !request.getStatus().isBlank()) {
+                        String oldStatus = blog.getStatus();
+                        String newStatus = request.getStatus().toUpperCase();
+
+                        blog.setStatus(newStatus);
+
+                        if (!"PUBLISHED".equalsIgnoreCase(oldStatus)
+                                && "PUBLISHED".equalsIgnoreCase(newStatus)
+                                && blog.getPublishedAt() == null) {
+                        blog.setPublishedAt(LocalDateTime.now());
+                        }
+                }
+
+                if (request.getPublishedAt() != null) {
+                        blog.setPublishedAt(request.getPublishedAt());
+                }
+
+                // related tours
+                if (request.getRelatedTourIds() != null) {
+                        if (request.getRelatedTourIds().isEmpty()) {
+                        blog.setRelatedTours(new HashSet<>());
+                        } else {
+                        List<Tour> tours = tourRepository.findAllById(request.getRelatedTourIds());
+
+                        if (tours.size() != request.getRelatedTourIds().size()) {
+                                throw new RuntimeException("Một hoặc nhiều relatedTourIds không tồn tại");
+                        }
+
+                        blog.setRelatedTours(new HashSet<>(tours));
+                        }
+                }
+
+                Blog updated = blogRepository.save(blog);
+                return mapToResponse(updated, lang, true);
+                }
 
     // Admin API: update status DRAFT/PUBLISHED
     public BlogResponse updateBlogStatus(Long id, String status, String lang) {

@@ -29,6 +29,15 @@ public class BlogRequest {
 
     private Set<Long> relatedTourIds;
 
+
+    public Set<Long> getRelatedTourIds() {
+        return relatedTourIds;
+    }
+
+    public void setRelatedTourIds(Set<Long> relatedTourIds) {
+        this.relatedTourIds = relatedTourIds;
+    }
+
     public BlogRequest() {
     }
 
