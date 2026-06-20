@@ -27,6 +27,8 @@ public class BlogRequest {
     private String status;
     private LocalDateTime publishedAt;
 
+    private Set<Long> relatedTourIds;
+
     public BlogRequest() {
     }
 

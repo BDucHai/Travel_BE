@@ -7,6 +7,7 @@ import com.travel.dto.PaginationResponse;
 import com.travel.dto.RelatedTourResponse;
 import com.travel.entity.Blog;
 import com.travel.repository.BlogRepository;
+import com.travel.repository.TourRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import java.util.List;
 public class BlogService {
 
     private final BlogRepository blogRepository;
+    private final TourRepository tourRepository;
 
     public BlogService(BlogRepository blogRepository) {
         this.blogRepository = blogRepository;
@@ -143,22 +145,35 @@ public class BlogService {
         blog.setViewCount(0);
 
         if ("PUBLISHED".equalsIgnoreCase(blog.getStatus())) {
-            blog.setPublishedAt(
-                    request.getPublishedAt() == null
-                            ? LocalDateTime.now()
-                            : request.getPublishedAt()
-            );
+                blog.setPublishedAt(
+                        request.getPublishedAt() == null
+                                ? LocalDateTime.now()
+                                : request.getPublishedAt()
+                );
         } else {
-            blog.setPublishedAt(request.getPublishedAt());
+                blog.setPublishedAt(request.getPublishedAt());
+        }
+
+
+        if (request.getRelatedTourIds() != null && !request.getRelatedTourIds().isEmpty()) {
+                List<Tour> tours = tourRepository.findAllById(request.getRelatedTourIds());
+
+                if (tours.size() != request.getRelatedTourIds().size()) {
+                        throw new RuntimeException("Một hoặc nhiều relatedTourIds không tồn tại");
+                }
+
+                blog.setRelatedTours(new HashSet<>(tours));
+                } else {
+                blog.setRelatedTours(new HashSet<>());
         }
 
         Blog saved = blogRepository.save(blog);
 
         return mapToResponse(saved, lang, true);
-    }
+        }
 
     // Admin API: update blog
-    public BlogResponse updateBlog(Long id, BlogRequest request, String lang) {
+        public BlogResponse updateBlog(Long id, BlogRequest request, String lang) {
         Blog blog = blogRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Blog not found"));
 
@@ -183,26 +198,47 @@ public class BlogService {
         blog.setIsMostRead(request.getIsMostRead() == null ? false : request.getIsMostRead());
 
         if (request.getStatus() != null && !request.getStatus().isBlank()) {
-            String oldStatus = blog.getStatus();
-            String newStatus = request.getStatus().toUpperCase();
+                String oldStatus = blog.getStatus();
+                String newStatus = request.getStatus().toUpperCase();
 
-            blog.setStatus(newStatus);
+                blog.setStatus(newStatus);
 
-            if (!"PUBLISHED".equalsIgnoreCase(oldStatus)
-                    && "PUBLISHED".equalsIgnoreCase(newStatus)
-                    && blog.getPublishedAt() == null) {
+                // nếu từ trạng thái khác chuyển sang PUBLISHED mà chưa có publishedAt
+                if (!"PUBLISHED".equalsIgnoreCase(oldStatus)
+                        && "PUBLISHED".equalsIgnoreCase(newStatus)
+                        && blog.getPublishedAt() == null) {
                 blog.setPublishedAt(LocalDateTime.now());
-            }
+                }
         }
 
         if (request.getPublishedAt() != null) {
-            blog.setPublishedAt(request.getPublishedAt());
+                blog.setPublishedAt(request.getPublishedAt());
+        }
+
+        // =========================
+        // XỬ LÝ RELATED TOURS
+        // null  -> giữ nguyên
+        // []    -> xóa hết
+        // [ids] -> cập nhật lại
+        // =========================
+        if (request.getRelatedTourIds() != null) {
+                if (request.getRelatedTourIds().isEmpty()) {
+                blog.setRelatedTours(new HashSet<>());
+                } else {
+                List<Tour> tours = tourRepository.findAllById(request.getRelatedTourIds());
+
+                if (tours.size() != request.getRelatedTourIds().size()) {
+                        throw new RuntimeException("Một hoặc nhiều relatedTourIds không tồn tại");
+                }
+
+                blog.setRelatedTours(new HashSet<>(tours));
+                }
         }
 
         Blog updated = blogRepository.save(blog);
 
         return mapToResponse(updated, lang, true);
-    }
+        }
 
     // Admin API: update status DRAFT/PUBLISHED
     public BlogResponse updateBlogStatus(Long id, String status, String lang) {
