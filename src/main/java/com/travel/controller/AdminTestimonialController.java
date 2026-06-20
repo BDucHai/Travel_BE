@@ -34,10 +34,10 @@ public class AdminTestimonialController {
         return testimonialService.getTestimonialById(id);
     }
 
-    @PostMapping
-    public TestimonialResponse createTestimonial(@RequestBody TestimonialRequest request) {
-        return testimonialService.createTestimonial(request);
-    }
+    // @PostMapping
+    // public TestimonialResponse createTestimonial(@RequestBody TestimonialRequest request) {
+    //     return testimonialService.createTestimonial(request);
+    // }
 
     @PutMapping("/{id}")
     public TestimonialResponse updateTestimonial(
@@ -60,13 +60,13 @@ public class AdminTestimonialController {
         return testimonialService.approveTestimonial(id);
     }
 
-    @PostMapping("/{id}/images")
-    public TestimonialResponse addImage(
-            @PathVariable Long id,
-            @RequestBody TestimonialImageRequest request
-    ) {
-        return testimonialService.addImage(id, request);
-    }
+    // @PostMapping("/{id}/images")
+    // public TestimonialResponse addImage(
+    //         @PathVariable Long id,
+    //         @RequestBody TestimonialImageRequest request
+    // ) {
+    //     return testimonialService.addImage(id, request);
+    // }
 
     @DeleteMapping("/{id}")
     public String deleteTestimonial(@PathVariable Long id) {
