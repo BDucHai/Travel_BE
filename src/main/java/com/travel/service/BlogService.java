@@ -23,9 +23,10 @@ public class BlogService {
     private final BlogRepository blogRepository;
     private final TourRepository tourRepository;
 
-    public BlogService(BlogRepository blogRepository) {
+        public BlogService(BlogRepository blogRepository, TourRepository tourRepository) {
         this.blogRepository = blogRepository;
-    }
+        this.tourRepository = tourRepository;
+        }
 
     // Public API: danh sách blog đã publish + pagination
     public PaginationResponse<BlogResponse> getBlogs(
