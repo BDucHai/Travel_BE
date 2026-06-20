@@ -6,13 +6,14 @@ import com.travel.dto.BlogResponse;
 import com.travel.dto.PaginationResponse;
 import com.travel.dto.RelatedTourResponse;
 import com.travel.entity.Blog;
+import com.travel.entity.Tour;
 import com.travel.repository.BlogRepository;
 import com.travel.repository.TourRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import java.util.HashSet;
 import java.time.LocalDateTime;
 import java.util.List;
 
