@@ -24,25 +24,25 @@ import java.util.Set;
 @Service
 public class TourService {
 
-    private final TourRepository tourRepository;
-    private final TourImageRepository tourImageRepository;
-    private final TourDestinationRepository tourDestinationRepository;
-    private final TourStyleRepository tourStyleRepository;
-    private final TourCollectionRepository tourCollectionRepository;
-    private final DestinationRepository destinationRepository;
-    private final TourItineraryRepository tourItineraryRepository;
-    private final CloudinaryService cloudinaryService;
-    
-    public TourService(
-            TourRepository tourRepository,
-            TourImageRepository tourImageRepository,
-            TourDestinationRepository tourDestinationRepository,
-            TourStyleRepository tourStyleRepository,
-            TourCollectionRepository tourCollectionRepository,
-            DestinationRepository destinationRepository,
-            TourItineraryRepository tourItineraryRepository,
-            CloudinaryService cloudinaryService
-    ) {
+        private final TourRepository tourRepository;
+        private final TourImageRepository tourImageRepository;
+        private final TourDestinationRepository tourDestinationRepository;
+        private final TourStyleRepository tourStyleRepository;
+        private final TourCollectionRepository tourCollectionRepository;
+        private final DestinationRepository destinationRepository;
+        private final TourItineraryRepository tourItineraryRepository;
+        private final CloudinaryService cloudinaryService;
+
+        public TourService(
+                TourRepository tourRepository,
+                TourImageRepository tourImageRepository,
+                TourDestinationRepository tourDestinationRepository,
+                TourStyleRepository tourStyleRepository,
+                TourCollectionRepository tourCollectionRepository,
+                DestinationRepository destinationRepository,
+                TourItineraryRepository tourItineraryRepository,
+                CloudinaryService cloudinaryService
+        ) {
         this.tourRepository = tourRepository;
         this.tourImageRepository = tourImageRepository;
         this.tourDestinationRepository = tourDestinationRepository;
@@ -51,7 +51,7 @@ public class TourService {
         this.destinationRepository = destinationRepository;
         this.tourItineraryRepository = tourItineraryRepository;
         this.cloudinaryService = cloudinaryService;
-    }
+        }
 
     // Public API
  // Public API: get tours with filters + pagination
