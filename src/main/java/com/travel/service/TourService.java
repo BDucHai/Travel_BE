@@ -376,60 +376,48 @@ public class TourService {
             MultipartFile[] itineraryImages,
             String lang
     ) {
-        Tour tour = new Tour();
+           Tour tour = new Tour();
 
-        // 1. Upload ảnh chính nếu FE gửi file featuredImage
-        if (featuredImage != null && !featuredImage.isEmpty()) {
-            ImageUploadResponse uploaded = cloudinaryService.uploadImage(
-                    featuredImage,
-                    "travel-website/tours"
-            );
+                // 1. Fill dữ liệu cơ bản của tour
+                fillTourData(tour, request);
 
-            request.setFeaturedImageUrl(uploaded.getUrl());
-        }
+                // set featured image từ request luôn
+                tour.setFeaturedImageUrl(request.getFeaturedImageUrl());
 
-        // 2. Fill dữ liệu cơ bản của tour
-        fillTourData(tour, request);
+                tour.setIsFeatured(request.getIsFeatured() == null ? false : request.getIsFeatured());
+                tour.setIsActive(request.getIsActive() == null ? true : request.getIsActive());
+                tour.setStatus(
+                        request.getStatus() == null || request.getStatus().isBlank()
+                                ? "DRAFT"
+                                : request.getStatus().toUpperCase()
+                );
 
-        tour.setIsFeatured(request.getIsFeatured() == null ? false : request.getIsFeatured());
-        tour.setIsActive(request.getIsActive() == null ? true : request.getIsActive());
-        tour.setStatus(
-                request.getStatus() == null || request.getStatus().isBlank()
-                        ? "DRAFT"
-                        : request.getStatus().toUpperCase()
-        );
+                setStyles(tour, request.getStyleIds());
+                setCollections(tour, request.getCollectionIds());
 
-        setStyles(tour, request.getStyleIds());
-        setCollections(tour, request.getCollectionIds());
+                Tour saved = tourRepository.save(tour);
 
-        Tour saved = tourRepository.save(tour);
+                // 2. Lưu gallery image từ request.getImageUrls()
+                if (request.getImageUrls() != null && !request.getImageUrls().isEmpty()) {
+                        int displayOrder = 1;
 
-        // 3. Upload ảnh gallery nếu có
-        if (images != null && images.length > 0) {
-            int displayOrder = 1;
+                        for (String imageUrl : request.getImageUrls()) {
+                        if (imageUrl != null && !imageUrl.isBlank()) {
+                                TourImage tourImage = new TourImage();
+                                tourImage.setTour(saved);
+                                tourImage.setImageUrl(imageUrl);
+                                tourImage.setDisplayOrder(displayOrder++);
 
-            for (MultipartFile file : images) {
-                if (file != null && !file.isEmpty()) {
-                    ImageUploadResponse uploaded = cloudinaryService.uploadImage(
-                            file,
-                            "travel-website/tours/gallery"
-                    );
-
-                    TourImage tourImage = new TourImage();
-                    tourImage.setTour(saved);
-                    tourImage.setImageUrl(uploaded.getUrl());
-                    tourImage.setDisplayOrder(displayOrder++);
-
-                    tourImageRepository.save(tourImage);
+                                tourImageRepository.save(tourImage);
+                        }
+                        }
                 }
-            }
-        }
 
-        // 4. Lưu itinerary từng ngày + upload ảnh itinerary nếu có
-        saveItineraryDays(saved, request, itineraryImages);
+                // 3. Lưu itinerary từng ngày + upload ảnh itinerary nếu vẫn còn dùng file
+                saveItineraryDays(saved, request, itineraryImages);
 
-        // 5. Trả về detail có itineraryDays
-        return mapToResponse(saved, lang, true);
+                // 4. Trả về detail có itineraryDays
+                return mapToResponse(saved, lang, true);
     }
     
     
