@@ -2,6 +2,7 @@ package com.travel.service;
 
 import com.travel.dto.ChangePasswordRequest;
 import com.travel.dto.UserProfileResponse;
+import com.travel.dto.CreateUserRequest;
 import com.travel.entity.Role;
 import com.travel.entity.User;
 import com.travel.repository.UserRepository;
