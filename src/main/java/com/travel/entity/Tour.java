@@ -100,8 +100,13 @@ public class Tour {
     )
     private Set<TourCollection> collections = new HashSet<>();
 
-    public Tour() {
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "tour_destination_mapping",
+            joinColumns = @JoinColumn(name = "tour_id"),
+            inverseJoinColumns = @JoinColumn(name = "destination_id")
+    )
+    private Set<Destination> destinations = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {
@@ -116,6 +121,14 @@ public class Tour {
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public Set<Destination> getDestinations() {
+        return destinations;
+    }
+
+    public void setDestinations(Set<Destination> destinations) {
+        this.destinations = destinations;
     }
 
     public Long getId() {

@@ -360,13 +360,13 @@ public class TourService {
     }
 
        private void setDestinations(Tour tour, List<Long> destinationIds) {
-        if (destinationIds == null) {
-                return;
-        }
+                if (destinationIds == null) {
+                        return;
+                }
 
-        Set<TourDestination> destinations = new HashSet<>(tourDestinationRepository.findAllById(destinationIds));
-        tour.setDestinations(destinations);
-        }
+                Set<Destination> destinations = new HashSet<>(destinationRepository.findAllById(destinationIds));
+                tour.setDestinations(destinations);
+                }
 
     private void setCollections(Tour tour, List<Long> collectionIds) {
         if (collectionIds == null) {
@@ -403,7 +403,7 @@ public class TourService {
 
         setStyles(tour, request.getStyleIds());
         setCollections(tour, request.getCollectionIds());
-        setDestinations(tour, request.getDestinationIds()); // thêm dòng này
+        setDestinations(tour, request.getDestinationIds());
 
         Tour saved = tourRepository.save(tour);
 
