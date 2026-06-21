@@ -429,6 +429,75 @@ public class TourService {
         // 4. Trả về detail có itineraryDays
         return mapToResponse(saved, lang, true);
         }
+
+        @Transactional
+        public TourResponse updateTourWithImages(
+                Long id,
+                TourRequest request,
+                MultipartFile featuredImage,
+                MultipartFile[] images,
+                MultipartFile[] itineraryImages,
+                String lang
+        ) {
+        // 1. FIND EXISTING TOUR
+        Tour tour = tourRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tour not found: " + id));
+
+        // 2. UPDATE BASIC DATA
+        fillTourData(tour, request);
+
+        // featured image (giữ logic giống create)
+        if (request.getFeaturedImageUrl() != null) {
+                tour.setFeaturedImageUrl(request.getFeaturedImageUrl());
+        }
+
+        tour.setIsFeatured(
+                request.getIsFeatured() != null && request.getIsFeatured()
+        );
+
+        tour.setIsActive(
+                request.getIsActive() == null ? true : request.getIsActive()
+        );
+
+        tour.setStatus(
+                request.getStatus() == null || request.getStatus().isBlank()
+                        ? "DRAFT"
+                        : request.getStatus().toUpperCase()
+        );
+
+        // 3. UPDATE RELATIONS (styles, collections, destinations)
+        setStyles(tour, request.getStyleIds());
+        setCollections(tour, request.getCollectionIds());
+        setDestinations(tour, request.getDestinationIds());
+
+        Tour saved = tourRepository.save(tour);
+
+        // 4. DELETE OLD IMAGES (IMPORTANT)
+        tourImageRepository.deleteByTourId(saved.getId());
+
+        // 5. SAVE NEW GALLERY IMAGES
+        if (request.getImageUrls() != null && !request.getImageUrls().isEmpty()) {
+                int displayOrder = 1;
+
+                for (String imageUrl : request.getImageUrls()) {
+                if (imageUrl != null && !imageUrl.isBlank()) {
+                        TourImage img = new TourImage();
+                        img.setTour(saved);
+                        img.setImageUrl(imageUrl);
+                        img.setDisplayOrder(displayOrder++);
+
+                        tourImageRepository.save(img);
+                }
+                }
+        }
+
+        // 6. UPDATE ITINERARY DAYS
+        itineraryDayRepository.deleteByTourId(saved.getId());
+        saveItineraryDays(saved, request, itineraryImages);
+
+        // 7. RETURN RESPONSE
+        return mapToResponse(saved, lang, true);
+        }
         
     
     private void saveItineraryDays(

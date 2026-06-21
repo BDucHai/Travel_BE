@@ -46,6 +46,20 @@ public class AdminTourController {
         );
     }
 
+    @PutMapping(value = "/update/with-images/{id}")
+    public ResponseEntity<?> updateTour(
+            @PathVariable Long id,
+            @RequestPart("data") TourRequest request,
+            @RequestPart(value = "itineraryImages", required = false) MultipartFile[] itineraryImages,
+            @RequestPart(value = "featuredImage", required = false) MultipartFile featuredImage,
+            @RequestPart(value = "images", required = false) MultipartFile[] images,
+            @RequestParam String lang
+    ) {
+        return ResponseEntity.ok(
+                tourService.updateTourWithImages(id, request, featuredImage, images, itineraryImages, lang)
+        );
+    }
+
     @GetMapping
     public PaginationResponse<AdminTourResponse> getAllTours(
             @RequestParam(defaultValue = "0") Integer page,
