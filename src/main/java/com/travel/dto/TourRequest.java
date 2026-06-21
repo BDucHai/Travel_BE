@@ -32,6 +32,7 @@ public class TourRequest {
     private String exclusionFr;
 
     private String featuredImageUrl;
+    private List<String> imageUrls; 
 
     private Boolean isFeatured;
     private Boolean isActive;
@@ -241,5 +242,13 @@ public class TourRequest {
 
     public void setItineraryDays(List<TourItineraryRequest> itineraryDays) {
         this.itineraryDays = itineraryDays;
+    }
+
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
 }
