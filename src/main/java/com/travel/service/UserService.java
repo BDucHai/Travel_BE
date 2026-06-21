@@ -83,4 +83,57 @@ public class UserService {
                 roles
         );
     }
+
+    public UserProfileResponse createUser(CreateUserRequest request) {
+
+        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+            throw new RuntimeException("Username already exists");
+        }
+
+        if (request.getPassword() == null || request.getPassword().isBlank()) {
+            throw new RuntimeException("Password is required");
+        }
+
+        User user = new User();
+
+        user.setUsername(request.getUsername());
+        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        user.setFullName(request.getFullName());
+        user.setEmail(request.getEmail());
+        user.setPhone(request.getPhone());
+        user.setAvatarUrl(request.getAvatarUrl());
+        user.setStatus(
+                request.getStatus() != null ? request.getStatus() : "ACTIVE"
+        );
+
+        // ===== ROLE HANDLING (IMPORTANT) =====
+        if (request.getRoleId() != null) {
+            Role role = roleRepository.findById(request.getRoleId())
+                    .orElseThrow(() -> new RuntimeException("Role not found"));
+
+            user.getRoles().add(role);
+        } else {
+            Role defaultRole = roleRepository.findByName("USER")
+                    .orElseThrow(() -> new RuntimeException("Default role USER not found"));
+
+            user.getRoles().add(defaultRole);
+        }
+
+        User saved = userRepository.save(user);
+
+        return mapToProfileResponse(saved);
+    }
+
+    public String deleteUser(Long userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.getRoles().clear();
+        userRepository.save(user);
+
+        userRepository.delete(user);
+
+        return "Delete user successfully";
+    }
 }

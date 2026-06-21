@@ -5,6 +5,7 @@ import com.travel.dto.UserProfileResponse;
 import com.travel.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -34,5 +35,17 @@ public class AdminProfileController {
         String username = authentication.getName();
 
         return userService.changePassword(username, request);
+    }
+
+    @PostMapping
+    public ResponseEntity<UserProfileResponse> createUser(
+            @RequestBody CreateUserRequest request
+    ) {
+        return ResponseEntity.ok(userService.createUser(request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.deleteUser(id));
     }
 }

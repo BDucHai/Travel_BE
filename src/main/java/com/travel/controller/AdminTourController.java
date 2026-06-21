@@ -4,6 +4,7 @@ import com.travel.dto.*;
 import com.travel.service.TourService;
 import org.springframework.web.bind.annotation.*;
 import com.travel.dto.AdminTourResponse;
+import com.travel.dto.TourResponse;
 
 import java.util.List;
 import java.util.Map;
