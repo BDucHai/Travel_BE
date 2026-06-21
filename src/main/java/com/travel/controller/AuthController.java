@@ -7,6 +7,8 @@ import com.travel.dto.UserProfileResponse;
 import com.travel.service.AuthService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "*")
