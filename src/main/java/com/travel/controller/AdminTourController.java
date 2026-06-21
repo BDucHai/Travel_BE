@@ -55,9 +55,8 @@ public class AdminTourController {
             @RequestPart(value = "images", required = false) MultipartFile[] images,
             @RequestParam String lang
     ) {
-        return ResponseEntity.ok(
-                tourService.updateTourWithImages(id, request, featuredImage, images, itineraryImages, lang)
-        );
+        return 
+                tourService.updateTourWithImages(id, request, featuredImage, images, itineraryImages, lang);
     }
 
     @GetMapping
