@@ -5,6 +5,7 @@ import com.travel.dto.LoginResponse;
 import com.travel.dto.CreateUserRequest;
 import com.travel.dto.UserProfileResponse;
 import com.travel.service.AuthService;
+import com.travel.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,9 +16,11 @@ import java.util.List;
 public class AuthController {
 
     private final AuthService authService;
+    private final UserService userService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, UserService userService) {
         this.authService = authService;
+        this.userService = userService;
     }
 
     @PostMapping("/login")
