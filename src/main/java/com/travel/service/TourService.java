@@ -492,7 +492,7 @@ public class TourService {
         }
 
         // 6. UPDATE ITINERARY DAYS
-        itineraryDayRepository.deleteByTourId(saved.getId());
+        tourItineraryRepository.deleteByTourId(saved.getId());
         saveItineraryDays(saved, request, itineraryImages);
 
         // 7. RETURN RESPONSE
