@@ -147,7 +147,7 @@ public class UserService {
 
     return users.stream()
             .map(this::mapToProfileResponse)
-            .to
+            .toList();
     }
 
     public List<UserProfileResponse> getAllUsers() {
