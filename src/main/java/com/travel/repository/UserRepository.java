@@ -12,4 +12,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
+
+     @Query("""
+        SELECT DISTINCT u
+        FROM User u
+        JOIN u.roles r
+        WHERE u.status = 'ACTIVE'
+          AND r.name = 'USER'
+    """)
+    List<User> findAllActiveUsersWithUserRole();
 }

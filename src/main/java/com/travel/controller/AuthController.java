@@ -27,4 +27,14 @@ public class AuthController {
     public UserProfileResponse createUser(@RequestBody CreateUserRequest request) {
         return authService.createUser(request);
     }
+
+    @GetMapping("/active-customers")
+    public List<UserProfileResponse> getAllActiveUsersWithUserRole() {
+        return userService.getAllActiveUsersWithUserRole();
+    }
+
+    @GetMapping("/user")
+    public List<UserProfileResponse> getAllUsers() {
+        return userService.getAllUsers();
+    }
 }

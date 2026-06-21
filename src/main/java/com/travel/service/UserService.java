@@ -141,4 +141,20 @@ public class UserService {
 
         return "Delete user successfully";
     }
+
+    public List<UserProfileResponse> getAllActiveUsersWithUserRole() {
+    List<User> users = userRepository.findAllActiveUsersWithUserRole();
+
+    return users.stream()
+            .map(this::mapToProfileResponse)
+            .to
+    }
+
+    public List<UserProfileResponse> getAllUsers() {
+        List<User> users = userRepository.findAll();
+
+        return users.stream()
+                .map(this::mapToProfileResponse)
+                .toList();
+    }
 }
