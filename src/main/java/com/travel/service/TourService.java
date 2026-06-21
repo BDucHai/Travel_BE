@@ -492,8 +492,10 @@ public class TourService {
         }
 
         // 6. UPDATE ITINERARY DAYS
-        tourItineraryRepository.deleteByTourId(saved.getId());
-        saveItineraryDays(saved, request, itineraryImages);
+       if (itineraryImages != null && itineraryImages.length > 0) {
+                tourItineraryRepository.deleteByTourId(saved.getId());
+                saveItineraryDays(saved, request, itineraryImages);
+        }
 
         // 7. RETURN RESPONSE
         return mapToResponse(saved, lang, true);
