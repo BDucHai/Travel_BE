@@ -359,6 +359,15 @@ public class TourService {
         tour.setStyles(styles);
     }
 
+       private void setDestinations(Tour tour, List<Long> destinationIds) {
+        if (destinationIds == null) {
+                return;
+        }
+
+        Set<TourDestination> destinations = new HashSet<>(tourDestinationRepository.findAllById(destinationIds));
+        tour.setDestinations(destinations);
+        }
+
     private void setCollections(Tour tour, List<Long> collectionIds) {
         if (collectionIds == null) {
             return;
