@@ -6,6 +6,7 @@ import com.travel.dto.CreateUserRequest;
 import com.travel.entity.Role;
 import com.travel.entity.User;
 import com.travel.repository.UserRepository;
+import com.travel.repository.RoleRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
