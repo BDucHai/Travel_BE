@@ -2,6 +2,7 @@ package com.travel.controller;
 
 import com.travel.dto.ChangePasswordRequest;
 import com.travel.dto.UserProfileResponse;
+import com.travel.dto.CreateUserRequest;
 import com.travel.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
