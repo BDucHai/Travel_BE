@@ -568,12 +568,9 @@ public class TourService {
                 .map(TourImage::getImageUrl)
                 .toList();
 
-        List<String> destinationNames = tourDestinationRepository.findByTourIdOrderByDisplayOrderAsc(tour.getId())
+        List<String> destinationNames = tour.getDestinations()
                 .stream()
-                .map(td -> {
-                    Destination d = td.getDestination();
-                    return isFrench ? d.getNameFr() : d.getNameEn();
-                })
+                .map(d -> isFrench ? d.getNameFr() : d.getNameEn())
                 .toList();
 
         List<String> styleNames = tour.getStyles()
@@ -589,17 +586,17 @@ public class TourService {
         List<TourItineraryResponse> itineraryDays = null;
 
         if (includeItineraryDays) {
-            itineraryDays = tourItineraryRepository.findByTourIdOrderByDisplayOrderAsc(tour.getId())
-                    .stream()
-                    .map(item -> new TourItineraryResponse(
-                            item.getId(),
-                            item.getDayNumber(),
-                            isFrench ? item.getTitleFr() : item.getTitleEn(),
-                            isFrench ? item.getDescriptionFr() : item.getDescriptionEn(),
-                            item.getImageUrl(),
-                            item.getDisplayOrder()
-                    ))
-                    .toList();
+                itineraryDays = tourItineraryRepository.findByTourIdOrderByDisplayOrderAsc(tour.getId())
+                        .stream()
+                        .map(item -> new TourItineraryResponse(
+                                item.getId(),
+                                item.getDayNumber(),
+                                isFrench ? item.getTitleFr() : item.getTitleEn(),
+                                isFrench ? item.getDescriptionFr() : item.getDescriptionEn(),
+                                item.getImageUrl(),
+                                item.getDisplayOrder()
+                        ))
+                        .toList();
         }
 
         return new TourResponse(
@@ -626,7 +623,7 @@ public class TourService {
                 collectionNames,
                 itineraryDays
         );
-    }
+        }
     
     private AdminTourResponse mapToAdminResponse(Tour tour, boolean includeItineraryDays) {
         List<String> imageUrls = tourImageRepository.findByTourIdOrderByDisplayOrderAsc(tour.getId())
@@ -634,24 +631,23 @@ public class TourService {
                 .map(TourImage::getImageUrl)
                 .toList();
 
-        List<TourDestination> tourDestinations =
-                tourDestinationRepository.findByTourIdOrderByDisplayOrderAsc(tour.getId());
-
-        List<Long> destinationIds = tourDestinations
+        // ===== DESTINATIONS =====
+        List<Long> destinationIds = tour.getDestinations()
                 .stream()
-                .map(td -> td.getDestination().getId())
+                .map(Destination::getId)
                 .toList();
 
-        List<String> destinationNamesEn = tourDestinations
+        List<String> destinationNamesEn = tour.getDestinations()
                 .stream()
-                .map(td -> td.getDestination().getNameEn())
+                .map(Destination::getNameEn)
                 .toList();
 
-        List<String> destinationNamesFr = tourDestinations
+        List<String> destinationNamesFr = tour.getDestinations()
                 .stream()
-                .map(td -> td.getDestination().getNameFr())
+                .map(Destination::getNameFr)
                 .toList();
 
+        // ===== STYLES =====
         List<Long> styleIds = tour.getStyles()
                 .stream()
                 .map(TourStyle::getId)
@@ -667,6 +663,7 @@ public class TourService {
                 .map(TourStyle::getNameFr)
                 .toList();
 
+        // ===== COLLECTIONS =====
         List<Long> collectionIds = tour.getCollections()
                 .stream()
                 .map(TourCollection::getId)
@@ -685,19 +682,19 @@ public class TourService {
         List<AdminTourItineraryResponse> itineraryDays = null;
 
         if (includeItineraryDays) {
-            itineraryDays = tourItineraryRepository.findByTourIdOrderByDisplayOrderAsc(tour.getId())
-                    .stream()
-                    .map(item -> new AdminTourItineraryResponse(
-                            item.getId(),
-                            item.getDayNumber(),
-                            item.getTitleEn(),
-                            item.getTitleFr(),
-                            item.getDescriptionEn(),
-                            item.getDescriptionFr(),
-                            item.getImageUrl(),
-                            item.getDisplayOrder()
-                    ))
-                    .toList();
+                itineraryDays = tourItineraryRepository.findByTourIdOrderByDisplayOrderAsc(tour.getId())
+                        .stream()
+                        .map(item -> new AdminTourItineraryResponse(
+                                item.getId(),
+                                item.getDayNumber(),
+                                item.getTitleEn(),
+                                item.getTitleFr(),
+                                item.getDescriptionEn(),
+                                item.getDescriptionFr(),
+                                item.getImageUrl(),
+                                item.getDisplayOrder()
+                        ))
+                        .toList();
         }
 
         return new AdminTourResponse(
@@ -751,6 +748,6 @@ public class TourService {
 
                 itineraryDays
         );
-    }
+        }
     
 }
