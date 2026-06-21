@@ -167,7 +167,7 @@ public class TourService {
 
     // Admin API
     public AdminTourResponse getTourById(Long id) {
-        Tour tour = tourRepository.findById(id)
+        Tour tour = tourRepository.findDetailById(id)
                 .orElseThrow(() -> new RuntimeException("Tour not found"));
 
         return mapToAdminResponse(tour, true);
@@ -196,7 +196,7 @@ public class TourService {
 
     // Admin API
     public TourResponse updateTour(Long id, TourRequest request, String lang) {
-        Tour tour = tourRepository.findById(id)
+        Tour tour = tourRepository.findDetailById(id)
                 .orElseThrow(() -> new RuntimeException("Tour not found"));
 
         fillTourData(tour, request);
@@ -221,7 +221,7 @@ public class TourService {
 
     // Admin API
     public TourResponse updateTourStatus(Long id, String status, String lang) {
-        Tour tour = tourRepository.findById(id)
+        Tour tour = tourRepository.findDetailById(id)
                 .orElseThrow(() -> new RuntimeException("Tour not found"));
 
         tour.setStatus(status.toUpperCase());
@@ -233,7 +233,7 @@ public class TourService {
 
     // Admin API
     public TourResponse addImage(Long tourId, TourImageRequest request, String lang) {
-        Tour tour = tourRepository.findById(tourId)
+        Tour tour = tourRepository.findDetailById(tourId)
                 .orElseThrow(() -> new RuntimeException("Tour not found"));
 
         TourImage image = new TourImage();
@@ -256,7 +256,7 @@ public class TourService {
 
     // Admin API
     public TourResponse addDestination(Long tourId, TourDestinationRequest request, String lang) {
-        Tour tour = tourRepository.findById(tourId)
+        Tour tour = tourRepository.findDetailById(tourId)
                 .orElseThrow(() -> new RuntimeException("Tour not found"));
 
         Destination destination = destinationRepository.findById(request.getDestinationId())
@@ -283,7 +283,7 @@ public class TourService {
 
     // Admin API
     public TourResponse updateStyles(Long tourId, List<Long> styleIds, String lang) {
-        Tour tour = tourRepository.findById(tourId)
+        Tour tour = tourRepository.findDetailById(tourId)
                 .orElseThrow(() -> new RuntimeException("Tour not found"));
 
         setStyles(tour, styleIds);
@@ -295,7 +295,7 @@ public class TourService {
 
     // Admin API
     public TourResponse updateCollections(Long tourId, List<Long> collectionIds, String lang) {
-        Tour tour = tourRepository.findById(tourId)
+        Tour tour = tourRepository.findDetailById(tourId)
                 .orElseThrow(() -> new RuntimeException("Tour not found"));
 
         setCollections(tour, collectionIds);
@@ -307,7 +307,7 @@ public class TourService {
 
     @Transactional
     public void deleteTour(Long id) {
-        Tour tour = tourRepository.findById(id)
+        Tour tour = tourRepository.findDetailById(id)
                 .orElseThrow(() -> new RuntimeException("Tour not found"));
 
         tourImageRepository.deleteByTourId(id);
@@ -440,7 +440,7 @@ public class TourService {
                 String lang
         ) {
         // 1. FIND EXISTING TOUR
-        Tour tour = tourRepository.findById(id)
+        Tour tour = tourRepository.findDetailById(id)
                 .orElseThrow(() -> new RuntimeException("Tour not found: " + id));
 
         // 2. UPDATE BASIC DATA

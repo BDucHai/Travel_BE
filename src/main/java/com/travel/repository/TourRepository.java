@@ -1,24 +1,22 @@
 package com.travel.repository;
 
 import com.travel.entity.Tour;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface TourRepository extends JpaRepository<Tour, Long> {
 
-	long countByStatus(String status);
+    long countByStatus(String status);
 
     long countByStatusAndIsActiveTrue(String status);
+
     List<Tour> findByStatusAndIsActiveTrueOrderByCreatedAtDesc(String status);
 
     List<Tour> findByDurationDaysAndStatusAndIsActiveTrueOrderByCreatedAtDesc(
@@ -31,13 +29,13 @@ public interface TourRepository extends JpaRepository<Tour, Long> {
     Optional<Tour> findBySlugFrAndStatusAndIsActiveTrue(String slugFr, String status);
 
     List<Tour> findAllByOrderByCreatedAtDesc();
-    
+
     Page<Tour> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
     Page<Tour> findByTitleEnContainingIgnoreCaseOrderByCreatedAtDesc(
-        String titleEn,
-        Pageable pageable
-        );
+            String titleEn,
+            Pageable pageable
+    );
 
     @Query("""
             SELECT DISTINCT t
@@ -82,7 +80,9 @@ public interface TourRepository extends JpaRepository<Tour, Long> {
             ORDER BY t.createdAt DESC
             """)
     List<Tour> findPublishedByCollectionSlugFr(@Param("slug") String slug);
-    
+
+    // ===== DETAIL PUBLIC =====
+    @EntityGraph(attributePaths = {"destinations", "styles", "collections"})
     @Query("""
             SELECT t
             FROM Tour t
@@ -91,7 +91,16 @@ public interface TourRepository extends JpaRepository<Tour, Long> {
               AND t.isActive = true
             """)
     Optional<Tour> findPublishedByAnySlug(@Param("slug") String slug);
-    
+
+    // ===== DETAIL ADMIN =====
+    @EntityGraph(attributePaths = {"destinations", "styles", "collections"})
+    @Query("""
+            SELECT t
+            FROM Tour t
+            WHERE t.id = :id
+            """)
+    Optional<Tour> findDetailById(@Param("id") Long id);
+
     @Query("""
             SELECT DISTINCT t.durationDays
             FROM Tour t
@@ -101,7 +110,7 @@ public interface TourRepository extends JpaRepository<Tour, Long> {
             ORDER BY t.durationDays ASC
             """)
     List<Integer> findDistinctPublishedDurations();
-    
+
     Page<Tour> findByStatusAndIsActiveTrue(
             String status,
             Pageable pageable
@@ -209,23 +218,22 @@ public interface TourRepository extends JpaRepository<Tour, Long> {
             Pageable pageable
     );
 
+    // ===== DESTINATION PAGE =====
     @Query(
             value = """
                     SELECT DISTINCT t
-                    FROM Tour t, TourDestination td
-                    JOIN td.destination d
-                    WHERE td.tour = t
-                      AND d.slugEn = :slug
+                    FROM Tour t
+                    JOIN t.destinations d
+                    WHERE d.slugEn = :slug
                       AND t.status = 'PUBLISHED'
                       AND t.isActive = true
                     ORDER BY t.createdAt DESC
                     """,
             countQuery = """
                     SELECT COUNT(DISTINCT t)
-                    FROM Tour t, TourDestination td
-                    JOIN td.destination d
-                    WHERE td.tour = t
-                      AND d.slugEn = :slug
+                    FROM Tour t
+                    JOIN t.destinations d
+                    WHERE d.slugEn = :slug
                       AND t.status = 'PUBLISHED'
                       AND t.isActive = true
                     """
@@ -238,20 +246,18 @@ public interface TourRepository extends JpaRepository<Tour, Long> {
     @Query(
             value = """
                     SELECT DISTINCT t
-                    FROM Tour t, TourDestination td
-                    JOIN td.destination d
-                    WHERE td.tour = t
-                      AND d.slugFr = :slug
+                    FROM Tour t
+                    JOIN t.destinations d
+                    WHERE d.slugFr = :slug
                       AND t.status = 'PUBLISHED'
                       AND t.isActive = true
                     ORDER BY t.createdAt DESC
                     """,
             countQuery = """
                     SELECT COUNT(DISTINCT t)
-                    FROM Tour t, TourDestination td
-                    JOIN td.destination d
-                    WHERE td.tour = t
-                      AND d.slugFr = :slug
+                    FROM Tour t
+                    JOIN t.destinations d
+                    WHERE d.slugFr = :slug
                       AND t.status = 'PUBLISHED'
                       AND t.isActive = true
                     """
@@ -260,6 +266,4 @@ public interface TourRepository extends JpaRepository<Tour, Long> {
             @Param("slug") String slug,
             Pageable pageable
     );
-    
-    
 }
