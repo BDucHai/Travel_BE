@@ -47,7 +47,7 @@ public class AdminTourController {
     }
 
     @PutMapping(value = "/update/with-images/{id}")
-    public ResponseEntity<?> updateTour(
+    public TourResponse updateTourWithImages(
             @PathVariable Long id,
             @RequestPart("data") TourRequest request,
             @RequestPart(value = "itineraryImages", required = false) MultipartFile[] itineraryImages,
