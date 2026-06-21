@@ -32,7 +32,7 @@ public class TourRequest {
     private String exclusionFr;
 
     private String featuredImageUrl;
-    private List<String> imageUrls; 
+    private List<String> imageUrls;
 
     private Boolean isFeatured;
     private Boolean isActive;
@@ -40,6 +40,7 @@ public class TourRequest {
 
     private List<Long> styleIds;
     private List<Long> collectionIds;
+    private List<Long> destinationIds;   // thêm dòng này
     private List<TourItineraryRequest> itineraryDays;
 
     public TourRequest() {
@@ -121,6 +122,10 @@ public class TourRequest {
         return featuredImageUrl;
     }
 
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
     public Boolean getIsFeatured() {
         return isFeatured;
     }
@@ -139,6 +144,14 @@ public class TourRequest {
 
     public List<Long> getCollectionIds() {
         return collectionIds;
+    }
+
+    public List<Long> getDestinationIds() {   // thêm getter
+        return destinationIds;
+    }
+
+    public List<TourItineraryRequest> getItineraryDays() {
+        return itineraryDays;
     }
 
     public void setCode(String code) {
@@ -217,6 +230,10 @@ public class TourRequest {
         this.featuredImageUrl = featuredImageUrl;
     }
 
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
+    }
+
     public void setIsFeatured(Boolean featured) {
         isFeatured = featured;
     }
@@ -236,19 +253,12 @@ public class TourRequest {
     public void setCollectionIds(List<Long> collectionIds) {
         this.collectionIds = collectionIds;
     }
-    public List<TourItineraryRequest> getItineraryDays() {
-        return itineraryDays;
+
+    public void setDestinationIds(List<Long> destinationIds) {   // thêm setter
+        this.destinationIds = destinationIds;
     }
 
     public void setItineraryDays(List<TourItineraryRequest> itineraryDays) {
         this.itineraryDays = itineraryDays;
-    }
-
-    public List<String> getImageUrls() {
-        return imageUrls;
-    }
-
-    public void setImageUrls(List<String> imageUrls) {
-        this.imageUrls = imageUrls;
     }
 }

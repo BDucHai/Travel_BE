@@ -370,56 +370,57 @@ public class TourService {
     
     @Transactional
     public TourResponse createTourWithImages(
-            TourRequest request,
-            MultipartFile featuredImage,
-            MultipartFile[] images,
-            MultipartFile[] itineraryImages,
-            String lang
-    ) {
-           Tour tour = new Tour();
+        TourRequest request,
+        MultipartFile featuredImage,
+        MultipartFile[] images,
+        MultipartFile[] itineraryImages,
+        String lang
+) {
+        Tour tour = new Tour();
 
-                // 1. Fill dữ liệu cơ bản của tour
-                fillTourData(tour, request);
+        // 1. Fill dữ liệu cơ bản của tour
+        fillTourData(tour, request);
 
-                // set featured image từ request luôn
-                tour.setFeaturedImageUrl(request.getFeaturedImageUrl());
+        // set featured image từ request luôn
+        tour.setFeaturedImageUrl(request.getFeaturedImageUrl());
 
-                tour.setIsFeatured(request.getIsFeatured() == null ? false : request.getIsFeatured());
-                tour.setIsActive(request.getIsActive() == null ? true : request.getIsActive());
-                tour.setStatus(
-                        request.getStatus() == null || request.getStatus().isBlank()
-                                ? "DRAFT"
-                                : request.getStatus().toUpperCase()
-                );
+        tour.setIsFeatured(request.getIsFeatured() == null ? false : request.getIsFeatured());
+        tour.setIsActive(request.getIsActive() == null ? true : request.getIsActive());
+        tour.setStatus(
+                request.getStatus() == null || request.getStatus().isBlank()
+                        ? "DRAFT"
+                        : request.getStatus().toUpperCase()
+        );
 
-                setStyles(tour, request.getStyleIds());
-                setCollections(tour, request.getCollectionIds());
+        setStyles(tour, request.getStyleIds());
+        setCollections(tour, request.getCollectionIds());
+        setDestinations(tour, request.getDestinationIds()); // thêm dòng này
 
-                Tour saved = tourRepository.save(tour);
+        Tour saved = tourRepository.save(tour);
 
-                // 2. Lưu gallery image từ request.getImageUrls()
-                if (request.getImageUrls() != null && !request.getImageUrls().isEmpty()) {
-                        int displayOrder = 1;
+        // 2. Lưu gallery image từ request.getImageUrls()
+        if (request.getImageUrls() != null && !request.getImageUrls().isEmpty()) {
+                int displayOrder = 1;
 
-                        for (String imageUrl : request.getImageUrls()) {
-                        if (imageUrl != null && !imageUrl.isBlank()) {
-                                TourImage tourImage = new TourImage();
-                                tourImage.setTour(saved);
-                                tourImage.setImageUrl(imageUrl);
-                                tourImage.setDisplayOrder(displayOrder++);
+                for (String imageUrl : request.getImageUrls()) {
+                if (imageUrl != null && !imageUrl.isBlank()) {
+                        TourImage tourImage = new TourImage();
+                        tourImage.setTour(saved);
+                        tourImage.setImageUrl(imageUrl);
+                        tourImage.setDisplayOrder(displayOrder++);
 
-                                tourImageRepository.save(tourImage);
-                        }
-                        }
+                        tourImageRepository.save(tourImage);
                 }
+                }
+        }
 
-                // 3. Lưu itinerary từng ngày + upload ảnh itinerary nếu vẫn còn dùng file
-                saveItineraryDays(saved, request, itineraryImages);
+        // 3. Lưu itinerary từng ngày + upload ảnh itinerary nếu vẫn còn dùng file
+        saveItineraryDays(saved, request, itineraryImages);
 
-                // 4. Trả về detail có itineraryDays
-                return mapToResponse(saved, lang, true);
-    }
-    
+        // 4. Trả về detail có itineraryDays
+        return mapToResponse(saved, lang, true);
+        }
+        
     
     private void saveItineraryDays(
             Tour savedTour,
