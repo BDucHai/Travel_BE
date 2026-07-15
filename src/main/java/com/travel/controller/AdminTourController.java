@@ -50,12 +50,13 @@ public class AdminTourController {
     @PutMapping(value = "/update/with-images/{id}")
     public TourResponse updateTourWithImages(
             @PathVariable Long id,
-            @RequestPart("data") TourRequest request,
+            @RequestPart("data") String dataJson,
             @RequestPart(value = "itineraryImages", required = false) MultipartFile[] itineraryImages,
             @RequestPart(value = "featuredImage", required = false) MultipartFile featuredImage,
             @RequestPart(value = "images", required = false) MultipartFile[] images,
             @RequestParam String lang
-    ) {
+    ) throws Exception {
+         TourRequest request = objectMapper.readValue(dataJson, TourRequest.class);
         return 
                 tourService.updateTourWithImages(id, request, featuredImage, images, itineraryImages, lang);
     }
