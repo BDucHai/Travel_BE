@@ -2,6 +2,7 @@ package com.travel.dto;
 
 public class TourItineraryRequest {
 
+    private Long id;
     private Integer dayNumber;
     private String titleEn;
     private String titleFr;
@@ -77,4 +78,12 @@ public class TourItineraryRequest {
     public void setImageIndex(Integer imageIndex) {
         this.imageIndex = imageIndex;
     }
+
+    public Long getId() {
+    return id;
+}
+
+public void setId(Long id) {
+    this.id = id;
+}
 }
