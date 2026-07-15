@@ -54,7 +54,7 @@ public class AdminTourController {
             @RequestPart(value = "itineraryImages", required = false) MultipartFile[] itineraryImages,
             @RequestPart(value = "featuredImage", required = false) MultipartFile featuredImage,
             @RequestPart(value = "images", required = false) MultipartFile[] images,
-            @RequestParam String lang
+           @RequestParam(defaultValue = "en") String lang
     ) throws Exception {
          TourRequest request = objectMapper.readValue(dataJson, TourRequest.class);
         return 
