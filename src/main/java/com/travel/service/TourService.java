@@ -379,7 +379,7 @@ public class TourService {
     
     @Transactional
     public TourResponse createTourWithImages(
-        TourRequest request,
+        TourRequest data,
         MultipartFile featuredImage,
         MultipartFile[] images,
         MultipartFile[] itineraryImages,
