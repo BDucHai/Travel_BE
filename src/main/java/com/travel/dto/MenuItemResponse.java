@@ -7,18 +7,15 @@ public class MenuItemResponse {
     private String slug;
     private Integer value;
     private String url;
-    private String content;
-
     public MenuItemResponse() {
     }
 
-    public MenuItemResponse(Long id, String label, String slug, Integer value, String url, String content) {
+    public MenuItemResponse(Long id, String label, String slug, Integer value, String url) {
         this.id = id;
         this.label = label;
         this.slug = slug;
         this.value = value;
         this.url = url;
-        this.content = content;
     }
 
     public Long getId() {
@@ -39,14 +36,6 @@ public class MenuItemResponse {
 
     public String getUrl() {
         return url;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public void setId(Long id) {
