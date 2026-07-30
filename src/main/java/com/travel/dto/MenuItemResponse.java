@@ -7,7 +7,7 @@ public class MenuItemResponse {
     private String slug;
     private Integer value;
     private String url;
-    private string content;
+    private String content;
     public MenuItemResponse() {
     }
 
