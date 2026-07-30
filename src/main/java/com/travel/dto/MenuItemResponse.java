@@ -7,6 +7,7 @@ public class MenuItemResponse {
     private String slug;
     private Integer value;
     private String url;
+    private string content;
     public MenuItemResponse() {
     }
 
@@ -18,9 +19,23 @@ public class MenuItemResponse {
         this.url = url;
     }
 
+    public MenuItemResponse(Long id, String label, String slug, Integer value, String url, String content) {
+        this.id = id;
+        this.label = label;
+        this.slug = slug;
+        this.value = value;
+        this.url = url;
+        this.content = content;
+    }
+
     public Long getId() {
         return id;
     }
+
+    public String getContent() {
+        return content;
+    }
+
 
     public String getLabel() {
         return label;
@@ -40,6 +55,10 @@ public class MenuItemResponse {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public void setLabel(String label) {
