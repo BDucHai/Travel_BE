@@ -134,7 +134,7 @@ public class LayoutService {
     private MenuItemResponse mapDestination(Destination destination, boolean isFrench) {
         String label = isFrench ? destination.getNameFr() : destination.getNameEn();
         String slug = isFrench ? destination.getSlugFr() : destination.getSlugEn();
-        Strimg value = isFrench ? destination.getContentFr() : destination.getContentEn();
+        String value = isFrench ? destination.getContentFr() : destination.getContentEn();
         return new MenuItemResponse(
                 destination.getId(),
                 label,
