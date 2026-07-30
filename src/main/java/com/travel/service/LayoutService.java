@@ -139,7 +139,7 @@ public class LayoutService {
                 destination.getId(),
                 label,
                 slug,
-                value,
+                null,
                 "/destinations/" + slug,
                 content
         );
