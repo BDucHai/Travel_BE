@@ -144,7 +144,8 @@ public class BlogService {
                         : request.getStatus().toUpperCase()
         );
 
-        blog.setViewCount(0);
+       blog.setViewCount(request.getViewCount() == null ? 0 : request.getViewCount());
+
 
         if ("PUBLISHED".equalsIgnoreCase(blog.getStatus())) {
                 blog.setPublishedAt(
