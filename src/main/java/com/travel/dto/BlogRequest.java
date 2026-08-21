@@ -24,7 +24,7 @@ public class BlogRequest {
     private Boolean isFeatured;
     private Boolean isMostRead;
 
-    private int viewCount;
+    private Integer viewCount;
 
     private String status;
     private LocalDateTime publishedAt;
@@ -115,7 +115,7 @@ public class BlogRequest {
         this.titleEn = titleEn;
     }
 
-    public void setViewCount(int viewCount) {
+    public void setViewCount(Integer viewCount) {
         this.viewCount = viewCount;
     }
 
