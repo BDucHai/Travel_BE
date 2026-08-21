@@ -24,6 +24,8 @@ public class BlogRequest {
     private Boolean isFeatured;
     private Boolean isMostRead;
 
+    private int viewCount;
+
     private String status;
     private LocalDateTime publishedAt;
 
@@ -43,6 +45,10 @@ public class BlogRequest {
 
     public String getAuthorName() {
         return authorName;
+    }
+
+     public String getViewCount() {
+        return viewCount;
     }
 
     public String getTitleEn() {
@@ -107,6 +113,10 @@ public class BlogRequest {
 
     public void setTitleEn(String titleEn) {
         this.titleEn = titleEn;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 
     public void setTitleFr(String titleFr) {
