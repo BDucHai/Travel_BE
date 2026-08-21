@@ -36,9 +36,11 @@ public class Blog {
     @Column(name = "excerpt_fr", length = 500)
     private String excerptFr;
 
+    @Lob
     @Column(name = "content_en", columnDefinition = "TEXT")
     private String contentEn;
 
+    @Lob
     @Column(name = "content_fr", columnDefinition = "TEXT")
     private String contentFr;
 
