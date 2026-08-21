@@ -47,7 +47,7 @@ public class BlogRequest {
         return authorName;
     }
 
-     public String getViewCount() {
+     public Integer getViewCount() {
         return viewCount;
     }
 
