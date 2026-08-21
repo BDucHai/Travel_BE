@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "blogs")
@@ -36,12 +38,12 @@ public class Blog {
     @Column(name = "excerpt_fr", length = 500)
     private String excerptFr;
 
-    @Lob
     @Column(name = "content_en", columnDefinition = "TEXT")
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR)
     private String contentEn;
 
-    @Lob
     @Column(name = "content_fr", columnDefinition = "TEXT")
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR)
     private String contentFr;
 
     @Column(name = "thumbnail_url")
