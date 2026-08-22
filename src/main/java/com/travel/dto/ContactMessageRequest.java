@@ -7,6 +7,9 @@ public class ContactMessageRequest {
     private String phoneNumber;
     private String subject;
     private String message;
+    private String nationality;
+    private String contactMethod;
+    private String hearFrom;
 
     public ContactMessageRequest() {
     }
@@ -31,6 +34,18 @@ public class ContactMessageRequest {
         return message;
     }
 
+    public String getNationality() {
+        return nationality;
+    }
+
+    public String getContactMethod() {
+        return contactMethod;
+    }
+
+    public String getHearFrom() {
+        return hearFrom;
+    }
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
@@ -49,5 +64,17 @@ public class ContactMessageRequest {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public void setContactMethod(String contactMethod) {
+        this.contactMethod = contactMethod;
+    }
+
+    public void setHearFrom(String hearFrom) {
+        this.hearFrom = hearFrom;
     }
 }

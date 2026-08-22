@@ -20,12 +20,23 @@ public class ContactMessage {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "subject")
     private String subject;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String message;
 
+    @Column(name = "status")
     private String status = "NEW";
+
+    @Column(name = "nationality", nullable = false)
+    private String nationality;
+
+    @Column(name = "contact_method", nullable = false)
+    private String contactMethod;
+
+    @Column(name = "hear_from")
+    private String hearFrom;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -74,6 +85,18 @@ public class ContactMessage {
         return status;
     }
 
+    public String getNationality() {
+        return nationality;
+    }
+
+    public String getContactMethod() {
+        return contactMethod;
+    }
+
+    public String getHearFrom() {
+        return hearFrom;
+    }
+
     public Blog getBlog() {
         return blog;
     }
@@ -117,5 +140,17 @@ public class ContactMessage {
     }
     public void setBlog(Blog blog) {
         this.blog = blog;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public void setContactMethod(String contactMethod) {
+        this.contactMethod = contactMethod;
+    }
+
+    public void setHearFrom(String hearFrom) {
+        this.hearFrom = hearFrom;
     }
 }

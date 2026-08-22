@@ -11,6 +11,9 @@ public class ContactMessageResponse {
     private String subject;
     private String message;
     private String status;
+    private String nationality;
+    private String contactMethod;
+    private String hearFrom;
     private LocalDateTime createdAt;
     private Long blogId;
     private String blogTitle;
@@ -27,6 +30,9 @@ public class ContactMessageResponse {
             String subject,
             String message,
             String status,
+            String nationality,
+            String contactMethod,
+            String hearFrom,
             LocalDateTime createdAt,
             Long blogId,
             String blogTitle
@@ -38,6 +44,9 @@ public class ContactMessageResponse {
         this.subject = subject;
         this.message = message;
         this.status = status;
+        this.nationality = nationality;
+        this.contactMethod = contactMethod;
+        this.hearFrom = hearFrom;
         this.createdAt = createdAt;
         this.blogId = blogId;
         this.blogTitle = blogTitle;
@@ -69,6 +78,18 @@ public class ContactMessageResponse {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public String getContactMethod() {
+        return contactMethod;
+    }
+
+    public String getHearFrom() {
+        return hearFrom;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -121,6 +142,18 @@ public class ContactMessageResponse {
     
     public void setBlogTitle(String blogTitle) {
         this.blogTitle = blogTitle;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public void setContactMethod(String contactMethod) {
+        this.contactMethod = contactMethod;
+    }
+
+    public void setHearFrom(String hearFrom) {
+        this.hearFrom = hearFrom;
     }
     
 }

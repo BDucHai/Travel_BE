@@ -39,6 +39,9 @@ public class ContactMessageService {
         contactMessage.setSubject(request.getSubject());
         contactMessage.setMessage(request.getMessage());
         contactMessage.setStatus("NEW");
+        contactMessage.setNationality(request.getNationality());
+        contactMessage.setContactMethod(request.getContactMethod());
+        contactMessage.setHearFrom(request.getHearFrom());
 
         ContactMessage savedMessage = contactMessageRepository.save(contactMessage);
 
@@ -160,6 +163,9 @@ public class ContactMessageService {
                 contactMessage.getPhoneNumber(),
                 contactMessage.getSubject(),
                 contactMessage.getMessage(),
+                contactMessage.getNationality(),
+                contactMessage.getContactMethod(),
+                contactMessage.getHearFrom(),
                 contactMessage.getStatus(),
                 contactMessage.getCreatedAt(),
                 blog != null ? blog.getId() : null,
