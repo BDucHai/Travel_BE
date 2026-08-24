@@ -32,10 +32,10 @@ public class Blog {
     @Column(name = "slug_fr", nullable = false, unique = true)
     private String slugFr;
 
-    @Column(name = "excerpt_en", length = 500)
+    @Column(name = "excerpt_en")
     private String excerptEn;
 
-    @Column(name = "excerpt_fr", length = 500)
+    @Column(name = "excerpt_fr")
     private String excerptFr;
 
     @Column(name = "content_en", columnDefinition = "TEXT")
