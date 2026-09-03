@@ -32,4 +32,7 @@ public interface BlogRepository extends JpaRepository<Blog, Long> {
               AND b.status = 'PUBLISHED'
             """)
     Optional<Blog> findPublishedByAnySlug(@Param("slug") String slug);
+
+	@Query(value = "SELECT * FROM blogs WHERE status = 'PUBLISHED' ORDER BY NEWID() LIMIT 4", nativeQuery = true)
+    List<Blog> findRandom4PublishedBlogs();
 }
