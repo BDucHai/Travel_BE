@@ -60,6 +60,13 @@ public class BlogService {
         );
     }
 
+    public List<BlogResponse> getRandomBlogs(String lang) {
+        return blogRepository.findRandom4PublishedBlogs()
+                .stream()
+                .map(blog -> mapToResponse(blog, lang, false))
+                .toList();
+    }
+
     // Public API: most read
     public List<BlogResponse> getMostReadBlogs(String lang) {
         return blogRepository.findTop4ByStatusAndIsMostReadTrueOrderByViewCountDesc("PUBLISHED")
