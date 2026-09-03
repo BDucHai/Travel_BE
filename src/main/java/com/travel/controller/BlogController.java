@@ -27,6 +27,13 @@ public class BlogController {
         return blogService.getBlogs(lang, page, limit);
     }
 
+    @GetMapping("/blogs/random")
+    public List<BlogResponse> getRandomBlogs(
+            @RequestParam(defaultValue = "en") String lang
+    ) {
+        return blogService.getRandomBlogs(lang);
+    }
+
     @GetMapping("/most-read")
     public List<BlogResponse> getMostReadBlogs(
             @RequestParam(defaultValue = "en") String lang
