@@ -1,5 +1,5 @@
 package com.travel.entity;
-
+import java.util.List;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -15,6 +15,9 @@ public class Destination {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
+
+    @OneToMany(mappedBy = "destination", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questions;
 
     // NORTH / CENTRAL / SOUTH
     @Column(length = 30)
@@ -100,6 +103,9 @@ public class Destination {
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
+    public List<Question> getQuestions() { return questions; }
+    public void setQuestions(List<Question> questions) { this.questions = questions; }
 
     public Long getId() {
         return id;
