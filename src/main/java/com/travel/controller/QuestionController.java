@@ -18,6 +18,11 @@ public class QuestionController {
         this.questionService = questionService;
     }
 
+    @GetMapping
+    public List<QuestionDTO> getAllQuestions() {
+        return questionService.getAllQuestions();
+    }
+
     // Lấy danh sách question theo destination
     @GetMapping("/destination/{destId}")
     public List<QuestionDTO> getQuestions(@PathVariable Long destId) {
