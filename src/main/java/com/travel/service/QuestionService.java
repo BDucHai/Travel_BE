@@ -32,6 +32,14 @@ public class QuestionService {
                 .stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
+    public List<QuestionDTO> getAllQuestions() {
+    return questionRepository.findAll()
+            .stream()
+            .map(QuestionMapper::toDTO)
+            .toList();
+    }
+
+
     public QuestionDTO addQuestion(Long destId, Question q) {
         Destination dest = new Destination();
         dest.setId(destId);
