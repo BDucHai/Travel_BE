@@ -33,7 +33,7 @@ public class QuestionService {
     }
 
     public List<QuestionDTO> getAllQuestions() {
-    return questionRepository.findAll()
+        return questionRepo.findAll()
             .stream()
             .map(this::mapToDTO) 
             .toList();
