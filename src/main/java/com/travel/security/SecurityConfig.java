@@ -72,7 +72,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/blogs/**").permitAll()
                         .requestMatchers("/api/pages/**").permitAll()
                         .requestMatchers("/api/contact-messages/**").permitAll()
-
+                        .requestMatchers("/api/questions/**").permitAll()
+                        .requestMatchers("/api/replies/**").permitAll()
                         // Upload ảnh: tạm thời cho public để test
                         .requestMatchers("/api/upload/**").permitAll()
 
