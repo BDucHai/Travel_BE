@@ -68,11 +68,9 @@ public class DestinationService {
     }
 
     // Admin API: lấy destination theo id
-    public DestinationResponse getDestinationById(Long id, String lang) {
-        Destination destination = destinationRepository.findById(id)
+    public Destination getDestinationById(Long id) {
+        return destinationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Destination not found"));
-
-        return destination;
     }
 
     // Admin API: tạo destination
