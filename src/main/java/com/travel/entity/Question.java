@@ -2,6 +2,8 @@ package com.travel.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "questions")
@@ -32,6 +34,10 @@ public class Question {
 
     @Column(name = "status", length = 20)
     private String status = "pending";
+
+    // Quan hệ ngược tới Reply
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reply> replies = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
@@ -65,4 +71,7 @@ public class Question {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public List<Reply> getReplies() { return replies; }
+    public void setReplies(List<Reply> replies) { this.replies = replies; }
 }
