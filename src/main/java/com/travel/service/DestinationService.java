@@ -72,7 +72,7 @@ public class DestinationService {
         Destination destination = destinationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Destination not found"));
 
-        return mapToResponse(destination, lang);
+        return destination;
     }
 
     // Admin API: tạo destination
