@@ -2,6 +2,7 @@ package com.travel.controller;
 
 import com.travel.dto.DestinationRequest;
 import com.travel.dto.DestinationResponse;
+import com.travel.entity.Destination;
 import com.travel.service.DestinationService;
 import org.springframework.web.bind.annotation.*;
 
