@@ -57,6 +57,21 @@ public class QuestionService {
         return mapReplyToDTO(saved);
     }
 
+    public void deleteQuestion(Long questionId) {
+        Question q = questionRepo.findById(questionId)
+                .orElseThrow(() -> new RuntimeException("Question not found"));
+        // Nếu muốn xóa luôn reply liên quan thì:
+        replyRepo.deleteAll(q.getReplies());
+        questionRepo.delete(q);
+    }
+
+    // Xóa Reply theo id
+    public void deleteReply(Long replyId) {
+        Reply r = replyRepo.findById(replyId)
+                .orElseThrow(() -> new RuntimeException("Reply not found"));
+        replyRepo.delete(r);
+    }
+
     private QuestionDTO mapToDTO(Question q) {
         QuestionDTO dto = new QuestionDTO();
         dto.setId(q.getId());
