@@ -60,8 +60,6 @@ public class QuestionService {
     public void deleteQuestion(Long questionId) {
         Question q = questionRepo.findById(questionId)
                 .orElseThrow(() -> new RuntimeException("Question not found"));
-        // Nếu muốn xóa luôn reply liên quan thì:
-        replyRepo.deleteAll(q.getReplies());
         questionRepo.delete(q);
     }
 
