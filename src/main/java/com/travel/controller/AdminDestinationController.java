@@ -33,7 +33,7 @@ public class AdminDestinationController {
             @PathVariable Long id,
             @RequestParam(defaultValue = "en") String lang
     ) {
-        return destinationService.getDestinationById(id, lang);
+        return destinationService.getDestinationById(id);
     }
 
     @PostMapping
