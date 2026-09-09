@@ -28,7 +28,7 @@ public class AdminDestinationController {
     }
 
     @GetMapping("/{id}")
-    public DestinationResponse getDestinationById(
+    public Destination getDestinationById(
             @PathVariable Long id,
             @RequestParam(defaultValue = "en") String lang
     ) {
