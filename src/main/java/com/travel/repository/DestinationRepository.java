@@ -16,6 +16,8 @@ public interface DestinationRepository extends JpaRepository<Destination, Long> 
 
     Optional<Destination> findBySlugFrAndIsActiveTrue(String slugFr);
 
+    Optional<Destination> findBySlugEnOrSlugFrAndIsActiveTrue(String slugEn, String slugFr);
+
     List<Destination> findAllByOrderByDisplayOrderAsc();
 
     List<Destination> findByRegionOrderByDisplayOrderAsc(String region);
