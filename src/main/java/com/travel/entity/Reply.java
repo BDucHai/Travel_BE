@@ -2,6 +2,8 @@ package com.travel.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "replies")
@@ -13,6 +15,7 @@ public class Reply {
     // Liên kết tới Question
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)
+    @JsonIgnore
     private Question question;
 
     @Column(nullable = false, length = 100)
