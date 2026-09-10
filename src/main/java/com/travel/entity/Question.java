@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "questions")
@@ -15,6 +16,7 @@ public class Question {
     // Liên kết tới Destination
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "destination_id", nullable = false)
+    @JsonBackReference
     private Destination destination;
 
     @Column(nullable = false, length = 100)
