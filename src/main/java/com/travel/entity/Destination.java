@@ -2,6 +2,7 @@ package com.travel.entity;
 import java.util.List;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -17,6 +18,7 @@ public class Destination {
     private Country country;
 
     @OneToMany(mappedBy = "destination", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
     private List<Question> questions;
 
     // NORTH / CENTRAL / SOUTH
