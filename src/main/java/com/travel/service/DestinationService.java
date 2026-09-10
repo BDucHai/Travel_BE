@@ -40,17 +40,14 @@ public class DestinationService {
     }
 
     // Public API
-    public DestinationResponse getDestinationDetail(String slug, String lang) {
-        boolean isFrench = "fr".equalsIgnoreCase(lang);
-
-        Destination destination = isFrench
-                ? destinationRepository.findBySlugFrAndIsActiveTrue(slug)
-                    .orElseThrow(() -> new RuntimeException("Destination not found"))
-                : destinationRepository.findBySlugEnAndIsActiveTrue(slug)
-                    .orElseThrow(() -> new RuntimeException("Destination not found"));
-
+       public DestinationResponse getDestinationDetail(String slug, String lang) {
+        Destination destination = destinationRepository
+                .findBySlugEnOrSlugFrAndIsActiveTrue(slug, slug)
+                .orElseThrow(() -> new RuntimeException("Destination not found"));
+    
         return mapToResponse(destination, lang);
     }
+
 
     // Admin API: lấy tất cả destination
     public List<DestinationResponse> getAllDestinationsForAdmin(String region, String lang) {
