@@ -113,7 +113,7 @@ public class Tour {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
 
-        if (this.isFeatured == null) this.isFeatured = false;
+        if (this.isFeatured == null) this.isFeatured = 0;
         if (this.isActive == null) this.isActive = true;
         if (this.status == null) this.status = "DRAFT";
     }

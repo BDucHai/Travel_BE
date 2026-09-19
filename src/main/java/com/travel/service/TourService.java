@@ -452,7 +452,9 @@ public class TourService {
         }
 
         tour.setIsFeatured(
-                request.getIsFeatured() != null && request.getIsFeatured()
+                request.getIsFeatured() != null
+                        ? request.getIsFeatured()
+                        : 0
         );
 
         tour.setIsActive(
