@@ -22,7 +22,7 @@ public class TourResponse {
 
     private String featuredImageUrl;
 
-    private Boolean isFeatured;
+    private Integer isFeatured;
     private Boolean isActive;
     private String status;
     private LocalDateTime createdAt;
@@ -50,7 +50,7 @@ public class TourResponse {
             String inclusion,
             String exclusion,
             String featuredImageUrl,
-            Boolean isFeatured,
+            Integer isFeatured,
             Boolean isActive,
             String status,
             LocalDateTime createdAt,
@@ -136,7 +136,7 @@ public class TourResponse {
         return featuredImageUrl;
     }
 
-    public Boolean getIsFeatured() {
+    public Integer getIsFeatured() {
         return isFeatured;
     }
 
@@ -224,7 +224,7 @@ public class TourResponse {
         this.featuredImageUrl = featuredImageUrl;
     }
 
-    public void setIsFeatured(Boolean featured) {
+    public void setIsFeatured(Integer featured) {
         isFeatured = featured;
     }
 

@@ -178,7 +178,7 @@ public class TourService {
 
         fillTourData(tour, request);
 
-        tour.setIsFeatured(request.getIsFeatured() == null ? false : request.getIsFeatured());
+        tour.setIsFeatured(request.getIsFeatured() == null ? 0 : request.getIsFeatured());
         tour.setIsActive(request.getIsActive() == null ? true : request.getIsActive());
         tour.setStatus(
                 request.getStatus() == null || request.getStatus().isBlank()
@@ -201,7 +201,7 @@ public class TourService {
 
         fillTourData(tour, request);
 
-        tour.setIsFeatured(request.getIsFeatured() == null ? false : request.getIsFeatured());
+        tour.setIsFeatured(request.getIsFeatured() == null ? 0 : request.getIsFeatured());
 
         if (request.getIsActive() != null) {
             tour.setIsActive(request.getIsActive());
@@ -393,7 +393,7 @@ public class TourService {
         // set featured image từ request luôn
         tour.setFeaturedImageUrl(request.getFeaturedImageUrl());
 
-        tour.setIsFeatured(request.getIsFeatured() == null ? false : request.getIsFeatured());
+        tour.setIsFeatured(request.getIsFeatured() == null ? 0 : request.getIsFeatured());
         tour.setIsActive(request.getIsActive() == null ? true : request.getIsActive());
         tour.setStatus(
                 request.getStatus() == null || request.getStatus().isBlank()

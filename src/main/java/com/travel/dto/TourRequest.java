@@ -34,7 +34,7 @@ public class TourRequest {
     private String featuredImageUrl;
     private List<String> imageUrls;
 
-    private Boolean isFeatured;
+    private Integer isFeatured;
     private Boolean isActive;
     private String status;
 
@@ -126,7 +126,7 @@ public class TourRequest {
         return imageUrls;
     }
 
-    public Boolean getIsFeatured() {
+    public Integer getIsFeatured() {
         return isFeatured;
     }
 
@@ -234,7 +234,7 @@ public class TourRequest {
         this.imageUrls = imageUrls;
     }
 
-    public void setIsFeatured(Boolean featured) {
+    public void setIsFeatured(Integer featured) {
         isFeatured = featured;
     }
 

@@ -71,7 +71,7 @@ public class Tour {
     private String featuredImageUrl;
 
     @Column(name = "is_featured")
-    private Boolean isFeatured = false;
+    private Integer isFeatured;
 
     @Column(name = "is_active")
     private Boolean isActive = true;
@@ -211,7 +211,7 @@ public class Tour {
         return featuredImageUrl;
     }
 
-    public Boolean getIsFeatured() {
+    public Integer getIsFeatured() {
         return isFeatured;
     }
 
@@ -319,7 +319,7 @@ public class Tour {
         this.featuredImageUrl = featuredImageUrl;
     }
 
-    public void setIsFeatured(Boolean featured) {
+    public void setIsFeatured(Integer featured) {
         isFeatured = featured;
     }
 
