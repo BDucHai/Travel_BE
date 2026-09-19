@@ -33,7 +33,7 @@ public class AdminTourResponse {
     private String exclusionFr;
 
     private String featuredImageUrl;
-    private Boolean isFeatured;
+    private Integer isFeatured;
     private Boolean isActive;
     private String status;
 
@@ -80,7 +80,7 @@ public class AdminTourResponse {
             String exclusionEn,
             String exclusionFr,
             String featuredImageUrl,
-            Boolean isFeatured,
+            Integer isFeatured,
             Boolean isActive,
             String status,
             LocalDateTime createdAt,
@@ -295,11 +295,11 @@ public class AdminTourResponse {
 		this.featuredImageUrl = featuredImageUrl;
 	}
 
-	public Boolean getIsFeatured() {
+	public Integer getIsFeatured() {
 		return isFeatured;
 	}
 
-	public void setIsFeatured(Boolean isFeatured) {
+	public void setIsFeatured(Integer isFeatured) {
 		this.isFeatured = isFeatured;
 	}
 
