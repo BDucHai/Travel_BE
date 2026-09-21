@@ -11,29 +11,53 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BlogRepository extends JpaRepository<Blog, Long> {
- 
-	long countByStatus(String status);
-    Page<Blog> findByStatusOrderByPublishedAtDesc(String status, Pageable pageable);
 
-    List<Blog> findTop4ByStatusAndIsMostReadTrueOrderByViewCountDesc(String status);
+  long countByStatus(String status);
 
-    Optional<Blog> findBySlugEnAndStatus(String slugEn, String status);
+  Page<Blog> findByStatusOrderByPublishedAtDesc(String status, Pageable pageable);
 
-    Optional<Blog> findBySlugFrAndStatus(String slugFr, String status);
+  List<Blog> findTop4ByStatusAndIsMostReadTrueOrderByViewCountDesc(String status);
 
-    List<Blog> findAllByOrderByCreatedAtDesc();
-    Page<Blog> findAllByOrderByCreatedAtDesc(Pageable pageable);
-    
-    @Query("""
-            SELECT DISTINCT b
-            FROM Blog b
-            LEFT JOIN FETCH b.relatedTours rt
-            WHERE (b.slugEn = :slug OR b.slugFr = :slug)
-              AND b.status = 'PUBLISHED'
-            """)
-    Optional<Blog> findPublishedByAnySlug(@Param("slug") String slug);
+  Optional<Blog> findBySlugEnAndStatus(String slugEn, String status);
 
-	@Query(value = "SELECT * FROM blogs WHERE status = 'PUBLISHED' ORDER BY RANDOM() LIMIT 4", nativeQuery = true)
-	List<Blog> findRandom4PublishedBlogs();
+  Optional<Blog> findBySlugFrAndStatus(String slugFr, String status);
+
+  List<Blog> findAllByOrderByCreatedAtDesc();
+
+  Page<Blog> findAllByOrderByCreatedAtDesc(Pageable pageable);
+
+  @Query("""
+      SELECT DISTINCT b
+      FROM Blog b
+      LEFT JOIN FETCH b.relatedTours rt
+      WHERE (b.slugEn = :slug OR b.slugFr = :slug)
+        AND b.status = 'PUBLISHED'
+      """)
+  Optional<Blog> findPublishedByAnySlug(@Param("slug") String slug);
+
+  @Query(value = "SELECT * FROM blogs WHERE status = 'PUBLISHED' ORDER BY RANDOM() LIMIT 4", nativeQuery = true)
+  List<Blog> findRandom4PublishedBlogs();
+
+  @Query("""
+      SELECT b
+      FROM Blog b
+      WHERE LOWER(b.titleEn) LIKE LOWER(CONCAT('%', :keyword, '%'))
+      AND b.status = 'PUBLISHED'
+      ORDER BY b.createdAt DESC
+      """)
+  Page<Blog> searchByTitleEn(
+      @Param("keyword") String keyword,
+      Pageable pageable);
+
+  @Query("""
+      SELECT b
+      FROM Blog b
+      WHERE LOWER(b.titleFr) LIKE LOWER(CONCAT('%', :keyword, '%'))
+      AND b.status = 'PUBLISHED'
+      ORDER BY b.createdAt DESC
+      """)
+  Page<Blog> searchByTitleFr(
+      @Param("keyword") String keyword,
+      Pageable pageable);
 
 }

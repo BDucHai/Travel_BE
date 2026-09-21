@@ -4,6 +4,8 @@ import com.travel.dto.BlogResponse;
 import com.travel.dto.PaginationResponse;
 import com.travel.service.BlogService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import com.travel.dto.GlobalSearchResponse;
 
 import java.util.List;
 
@@ -47,5 +49,21 @@ public class BlogController {
             @RequestParam(defaultValue = "en") String lang
     ) {
         return blogService.getBlogDetail(slug, lang);
+    }
+
+    @GetMapping("/globalSearch")
+    public ResponseEntity<GlobalSearchResponse> searchGlobal(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "en") String lang,
+            @RequestParam(defaultValue = "true") boolean limit
+    ) {
+
+        return ResponseEntity.ok(
+                blogService.globalSearch(
+                        keyword,
+                        lang,
+                        limit
+                )
+        );
     }
 }
