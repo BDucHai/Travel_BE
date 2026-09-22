@@ -87,7 +87,8 @@ public class BlogService {
         public GlobalSearchResponse globalSearch(
                 String keyword,
                 String lang,
-                Integer page,
+                Integer blogPage,
+                Integer tourPage,
                 Integer limit
         ) {
             if (keyword == null || keyword.trim().isEmpty()) {
@@ -100,29 +101,46 @@ public class BlogService {
             String searchKeyword = keyword.trim();
             boolean isFrench = "fr".equalsIgnoreCase(lang);
         
-            int pageNumber = page == null || page < 0 ? 0 : page;
-            int pageSize = limit == null || limit <= 0 ? 12 : limit;
+            int blogPageNumber = blogPage == null || blogPage < 0
+                    ? 0
+                    : blogPage;
         
-            Pageable pageable = PageRequest.of(pageNumber, pageSize);
+            int tourPageNumber = tourPage == null || tourPage < 0
+                    ? 0
+                    : tourPage;
+        
+            int pageSize = limit == null || limit <= 0
+                    ? 12
+                    : limit;
+        
+            Pageable blogPageable = PageRequest.of(
+                    blogPageNumber,
+                    pageSize
+            );
+        
+            Pageable tourPageable = PageRequest.of(
+                    tourPageNumber,
+                    pageSize
+            );
         
             Page<Blog> blogs = isFrench
                     ? blogRepository.searchByTitleFr(
                             searchKeyword,
-                            pageable
+                            blogPageable
                     )
                     : blogRepository.searchByTitleEn(
                             searchKeyword,
-                            pageable
+                            blogPageable
                     );
         
             Page<Tour> tours = isFrench
                     ? tourRepository.searchByTitleFr(
                             searchKeyword,
-                            pageable
+                            tourPageable
                     )
                     : tourRepository.searchByTitleEn(
                             searchKeyword,
-                            pageable
+                            tourPageable
                     );
         
             Page<BlogResponse> blogResponses = blogs.map(
