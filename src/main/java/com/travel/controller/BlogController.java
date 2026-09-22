@@ -52,16 +52,17 @@ public class BlogController {
     }
 
     @GetMapping("/globalSearch")
-    public ResponseEntity<GlobalSearchResponse> searchGlobal(
+    public ResponseEntity<GlobalSearchResponse> globalSearch(
             @RequestParam String keyword,
             @RequestParam(defaultValue = "en") String lang,
-            @RequestParam(defaultValue = "true") boolean limit
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "12") Integer limit
     ) {
-
         return ResponseEntity.ok(
                 blogService.globalSearch(
                         keyword,
                         lang,
+                        page,
                         limit
                 )
         );
