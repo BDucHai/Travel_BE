@@ -85,57 +85,65 @@ public class BlogService {
 
         // Public API: search all (Tour and blog)
         public GlobalSearchResponse globalSearch(
-                        String keyword,
-                        String lang,
-                        boolean limit) {
-
-                if (keyword == null || keyword.trim().isEmpty()) {
-
-                        return new GlobalSearchResponse(
-                                        Page.empty(),
-                                        Page.empty());
-                }
-
-                String searchKeyword = keyword.trim();
-
-                boolean isFrench = "fr".equalsIgnoreCase(lang);
-
-                Pageable pageable = limit
-                                ? PageRequest.of(0, 2)
-                                : Pageable.unpaged();
-
-
-                Page<Blog> blogs = isFrench
-                                ? blogRepository.searchByTitleFr(
-                                                searchKeyword,
-                                                pageable)
-                                : blogRepository.searchByTitleEn(
-                                                searchKeyword,
-                                                pageable);
-
-                Page<Tour> tours = isFrench
-                                ? tourRepository.searchByTitleFr(
-                                                searchKeyword,
-                                                pageable)
-                                : tourRepository.searchByTitleEn(
-                                                searchKeyword,
-                                                pageable);
-
-                Page<BlogResponse> blogResponses = blogs.map(
-                                blog -> mapBlogToSearchResponse(
-                                                blog,
-                                                isFrench));
-
-                Page<TourResponse> tourResponses = tours.map(
-                                tour -> mapTourToSearchResponse(
-                                                tour,
-                                                isFrench));
-
+                String keyword,
+                String lang,
+                Integer page,
+                Integer limit
+        ) {
+            if (keyword == null || keyword.trim().isEmpty()) {
                 return new GlobalSearchResponse(
-                                blogResponses,
-                                tourResponses);
+                        Page.empty(),
+                        Page.empty()
+                );
+            }
+        
+            String searchKeyword = keyword.trim();
+            boolean isFrench = "fr".equalsIgnoreCase(lang);
+        
+            int pageNumber = page == null || page < 0 ? 0 : page;
+            int pageSize = limit == null || limit <= 0 ? 12 : limit;
+        
+            Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        
+            Page<Blog> blogs = isFrench
+                    ? blogRepository.searchByTitleFr(
+                            searchKeyword,
+                            pageable
+                    )
+                    : blogRepository.searchByTitleEn(
+                            searchKeyword,
+                            pageable
+                    );
+        
+            Page<Tour> tours = isFrench
+                    ? tourRepository.searchByTitleFr(
+                            searchKeyword,
+                            pageable
+                    )
+                    : tourRepository.searchByTitleEn(
+                            searchKeyword,
+                            pageable
+                    );
+        
+            Page<BlogResponse> blogResponses = blogs.map(
+                    blog -> mapBlogToSearchResponse(
+                            blog,
+                            isFrench
+                    )
+            );
+        
+            Page<TourResponse> tourResponses = tours.map(
+                    tour -> mapTourToSearchResponse(
+                            tour,
+                            isFrench
+                    )
+            );
+        
+            return new GlobalSearchResponse(
+                    blogResponses,
+                    tourResponses
+            );
         }
-
         // Admin API: lấy tất cả blog
         public PaginationResponse<AdminBlogResponse> getAllBlogsForAdmin(
                         Integer page,
