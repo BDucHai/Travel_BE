@@ -55,14 +55,16 @@ public class BlogController {
     public ResponseEntity<GlobalSearchResponse> globalSearch(
             @RequestParam String keyword,
             @RequestParam(defaultValue = "en") String lang,
-            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "0") Integer blogPage,
+            @RequestParam(defaultValue = "0") Integer tourPage,
             @RequestParam(defaultValue = "12") Integer limit
     ) {
         return ResponseEntity.ok(
                 blogService.globalSearch(
                         keyword,
                         lang,
-                        page,
+                        blogPage,
+                        tourPage,
                         limit
                 )
         );
