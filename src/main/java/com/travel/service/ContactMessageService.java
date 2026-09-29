@@ -155,7 +155,7 @@ public class ContactMessageService {
 
     private ContactMessageResponse mapToResponse(ContactMessage contactMessage) {
         Blog blog = contactMessage.getBlog();
-
+    
         return new ContactMessageResponse(
                 contactMessage.getId(),
                 contactMessage.getFullName(),
@@ -163,10 +163,12 @@ public class ContactMessageService {
                 contactMessage.getPhoneNumber(),
                 contactMessage.getSubject(),
                 contactMessage.getMessage(),
+    
+                contactMessage.getStatus(),
                 contactMessage.getNationality(),
                 contactMessage.getContactMethod(),
                 contactMessage.getHearFrom(),
-                contactMessage.getStatus(),
+    
                 contactMessage.getCreatedAt(),
                 blog != null ? blog.getId() : null,
                 blog != null ? blog.getTitleEn() : null
