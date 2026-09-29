@@ -52,6 +52,7 @@ public class SecurityConfig {
                         // Cho phép request preflight OPTIONS của browser
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
+                        .requestMatchers("/api/admin/banners").permitAll()
                         // Auth public
                         .requestMatchers("/api/auth/**").permitAll()
 
