@@ -53,7 +53,7 @@ public class ContactMessageService {
                 savedMessage.getFullName(),
                 savedMessage.getEmail(),
                 savedMessage.getPhoneNumber(),
-                savedMessage.getSubject(),
+                "Contact Request",
                 savedMessage.getMessage(),
                 savedMessage.getNationality(),
                 savedMessage.getContactMethod(),
