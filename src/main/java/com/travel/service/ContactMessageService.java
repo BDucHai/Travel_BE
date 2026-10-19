@@ -20,13 +20,16 @@ public class ContactMessageService {
 
     private final ContactMessageRepository contactMessageRepository;
     private final BlogRepository blogRepository;
+    private final EmailService emailService;
 
     public ContactMessageService(
             ContactMessageRepository contactMessageRepository,
-            BlogRepository blogRepository
+            BlogRepository blogRepository,
+            EmailService emailService
     ) {
         this.contactMessageRepository = contactMessageRepository;
         this.blogRepository = blogRepository;
+        this.emailService = emailService;
     }
 
     // Public API: khách gửi contact form thường
@@ -44,6 +47,22 @@ public class ContactMessageService {
         contactMessage.setHearFrom(request.getHearFrom());
 
         ContactMessage savedMessage = contactMessageRepository.save(contactMessage);
+
+        try {
+        emailService.sendContactEmail(
+                savedMessage.getFullName(),
+                savedMessage.getEmail(),
+                savedMessage.getPhoneNumber(),
+                savedMessage.getSubject(),
+                savedMessage.getMessage(),
+                savedMessage.getNationality(),
+                savedMessage.getContactMethod(),
+                savedMessage.getHearFrom()
+        );
+        } catch (Exception e) {
+            System.err.println("Failed to send contact email: "
+                    + e.getMessage());
+        }
 
         return mapToResponse(savedMessage);
     }
@@ -68,6 +87,21 @@ public class ContactMessageService {
         contactMessage.setStatus("NEW");
 
         ContactMessage saved = contactMessageRepository.save(contactMessage);
+        try {
+            emailService.sendContactEmail(
+                    saved.getFullName(),
+                    saved.getEmail(),
+                    saved.getPhoneNumber(),
+                    "Request Contact Consultation By Web",
+                    saved.getMessage(),
+                    null,
+                    null,
+                    null
+            );
+        } catch (Exception e) {
+            System.err.println("Failed to send blog inquiry email: "
+                    + e.getMessage());
+        }
 
         return mapToResponse(saved);
     }
